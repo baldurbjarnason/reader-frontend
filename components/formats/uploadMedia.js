@@ -12,7 +12,6 @@ export async function uploadMedia (created, api, global) {
   const mediaPaths = media.map(item => item.documentPath)
   for (const item of book.resources) {
     if (!mediaPaths.includes(item.url)) {
-      console.log(item)
       uploadQueue.push({
         documentPath: item.url,
         mediaType: item.encodingFormat,

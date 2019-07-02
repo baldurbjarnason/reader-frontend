@@ -428,6 +428,8 @@ class InkPDFRender extends window.HTMLElement {
     this.render()
     window.pdfjsLib.GlobalWorkerOptions.workerSrc =
       '/js/pdfjs-dist/build/pdf.worker.min.js'
+    window.CMAP_URL = '/js/pdfjs-dist/cmaps/'
+    window.CMAP_PACKED = true
     this.pdfLinkService = new window.pdfjsViewer.PDFLinkService()
     this.pdfViewer = new window.pdfjsViewer.PDFViewer({
       container: this.children[0],
