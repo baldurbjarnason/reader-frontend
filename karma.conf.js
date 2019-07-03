@@ -5,6 +5,12 @@ const merge = require('webpack-merge')
 module.exports = config => {
   config.set(
     merge(createDefaultConfig(config), {
+      esm: {
+        babel: {
+          // exclude libraries which don't need babel processing for speed
+          exclude: ['**/node_modules/sinon/**', '**/node_modules/@bundled-es-modules/**', 'components/reader/selectors/**']
+        }
+      },
       // We might temporarily removing Firefox while we figure out a better configuration for testing visibility.
       browsers: ['Firefox'],
       files: [

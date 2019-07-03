@@ -43,7 +43,7 @@
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
     "@open-wc/testing": "^0.12.3",
-    "@open-wc/testing-karma": "^2.0.1",
+    "@open-wc/testing-karma": "^2.0.11",
     "@open-wc/testing-karma-bs": "^1.1.1",
     "@pika/web": "^0.4.2",
     "autoprefixer": "^9.1.5",
