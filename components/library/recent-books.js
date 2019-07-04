@@ -87,58 +87,11 @@ export const RecentBooks = component(
       })
     }, [])
     const url = `/library/${tag}`
-    return html`<style>
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-content: center;
-      min-height: 30px;
-      margin-bottom: 0.5rem;
-    }
-    .label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: var(--medium);
-      margin: 0;
-      margin-top: 0.25rem;
-    }
-    .link {
-      font-size: 0.8rem;
-      margin: 0;
-      margin-top: 0.25rem;
-    }
-    .link a {
-      text-decoration: none;
-      border-radius: 2rem;
-      display: inline-block;
-    }
-    @keyframes outlinePop {
-      0% {
-        box-shadow: 0 0 0 1px rgb(228, 255, 254, 0.2);
-        background-color: rgb(228, 255, 254, 0.2);
-        transform: scale(0.5);
-      }
-      50% {
-        box-shadow: 0 0 0 8px var(--rc-lighter);
-        transform: scale(1.5);
-      }
-      100% {
-        box-shadow: 0 0 0 3px var(--rc-lighter);
-        background-color: var(--rc-lighter);
-        transform: scale(1);
-      }
-    }
-    a:focus {
-      background-color: var(--rc-lighter);
-      box-shadow: 0 0 0 5px var(--rc-lighter);
-      outline: solid transparent;
-      animation: outlinePop 0.25s ease-in-out;
-    }
-  </style><div class=${classMap({
-    'header-row': true
-  })}><p class="label">Recently uploaded ${
-  tag === 'all' ? '' : `in ${tag}`
-}</p> <p class="link">
+    return html`<div class=${classMap({
+      'header-row': true
+    })}><p class="label">Recently uploaded ${
+      tag === 'all' ? '' : `in ${tag}`
+    }</p> <p class="link">
     <a href=${url} class="Button">See all items &gt;</a>
   </p></div><book-list .books=${books}></book-list>`
   },
