@@ -45,7 +45,6 @@ export function parseOPF (opf, opfPath, api, global) {
       encodingFormat: item.getAttribute('media-type')
     }
   })
-
   // Often the cover isn't marked up using properties
   const propertiesCover = book.resources.filter(item => {
     return item.rel.indexOf('cover') !== -1
@@ -100,5 +99,5 @@ function getPath (path, opfPath, global) {
   assert(path && opfPath && global, 'All parameters for `getPath` are required')
   const opf = new global.URL(opfPath, 'http://example.com/')
   // Return the full pathname, sans initial '/' as that confuses the zip
-  return new global.URL(path, opf).pathname.replace('/', '')
+  return decodeURIComponent(new global.URL(path, opf).pathname.replace('/', ''))
 }
