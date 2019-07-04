@@ -3,6 +3,7 @@ import { component, useState, useEffect, useContext } from 'haunted'
 import { navigate } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
 import { iconButton } from '../widgets/icon-button.js'
+import { opener } from '../utils/create-modal.js'
 
 export const Library = el => {
   const { req } = el
@@ -60,11 +61,10 @@ export const Library = el => {
     font-weight: 600;
     color: var(--medium);
   }
-  </style><library-head name=${name}></library-head>
-  ${view()}
-  <collection-sidebar id="modal-1" aria-hidden="true" .current=${
+  </style><library-head name=${name} .collections=${tags} .current=${
   req.params.collection
-} .collections=${tags}></collection-sidebar>
+}></library-head>
+  ${view()}
 <ink-modal id="create-collection" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Create Collection</strong>
     <confirm-action slot="modal-body" .action=${() => {
@@ -112,11 +112,9 @@ window.customElements.define(
   component(Library, window.HTMLElement, { useShadowDOM: false })
 )
 
-const LibraryHead = ({ name }) => {
+const LibraryHead = ({ name, collections, current }) => {
   return html`${iconButton({
-    click: ev => {
-      document.querySelector('collection-sidebar').open = true
-    },
+    click: ev => opener('collection-sidebar', { collections, current }),
     name: 'menu',
     label: 'Menu Sidebar'
   })} <span class="Library-name">${name}</span> <span></span>`

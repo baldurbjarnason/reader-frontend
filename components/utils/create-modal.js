@@ -190,6 +190,11 @@ export function wrapEl (CustomClass, config) {
       }
       for (const child of document.body.children) {
         if (child !== this) {
+          console.log(
+            child,
+            child.hasAttribute('aria-hidden'),
+            child.hasAttribute('inert')
+          )
           if (child.hasAttribute('aria-hidden')) {
             child.setAttribute(
               'data-keep-hidden',
@@ -328,7 +333,7 @@ export function wrapEl (CustomClass, config) {
 // createModal that creates the custom elements required
 // called with -> id, renderer, config
 const createdModals = {}
-export function createModal (id, renderer, config) {
+export function createModal (id, renderer, config = {}) {
   config.wrapEl = wrapEl
   const baseRender = el => {
     const { props = {} } = el
