@@ -5,10 +5,11 @@ import { createAPI } from '../api.state.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import '../widgets/button.js'
 import '../widgets/dropdown.js'
-import '../widgets/icon-button.js'
+import { iconButton } from '../widgets/icon-button.js'
 import '../modals/menu-modal.js'
 import './book-list.js'
-
+import './ink-collection-modal.js'
+import { opener } from '../utils/create-modal.js'
 // function animationPromise (elem) {
 //   return new Promise((resolve, reject) => {
 //     function animation (event) {
@@ -94,24 +95,8 @@ export const preview = () => {
   }
   return html`<api-provider .value=${api}>
     <ink-collection></ink-collection>
-    <ink-collection-modal></ink-collection-modal>
   </api-provider>
 `
-}
-function defaultViewConfig (collection) {
-  const viewConfig = {
-    name: collection || 'All',
-    params: {
-      limit: 100,
-      page: 1
-    }
-  }
-  if (collection !== 'all') {
-    viewConfig.params.stack = collection
-  } else {
-    delete viewConfig.params.stack
-  }
-  return viewConfig
 }
 
 function setLibrary ({
@@ -138,8 +123,22 @@ function setLibrary ({
     setState(library)
   })
 }
+function defaultViewConfig (collection) {
+  const viewConfig = {
+    name: collection || 'All',
+    params: {
+      limit: 100,
+      page: 1
+    }
+  }
+  if (collection !== 'all') {
+    viewConfig.params.stack = collection
+  } else {
+    delete viewConfig.params.stack
+  }
+  return viewConfig
+}
 
-let setModalRef
 export const InkCollection = ({ collection }) => {
   const api = useContext(ApiContext)
   const [viewConfig, setViewConfig] = useState(defaultViewConfig(collection))
@@ -162,108 +161,23 @@ export const InkCollection = ({ collection }) => {
     },
     [collection]
   )
-  return html`<style>
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.25rem 1rem;
-      position: sticky;
-      top: 34px;
-      z-index: 2;
-      background-color: var(--main-background-color);
-    }
-
-    .label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: var(--medium);
-      margin: 0;
-    }
-    icon-button {
-      height: 30px;
-    display: inline-block;
-    }
-    span {
-      margin: 0;
-      padding: 0;
-      line-height: 1;
-    }
-    .loading {
-      min-height: 5rem;
-    }
-    .loading-svg {
-      display: none;
-    }
-    book-list {
-      display: block;
-    }
-    .loading book-list {
-      opacity: 0;
-    }
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      50% {
-        transform: rotate(180deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-    .loading svg {
-      display: block;
-      margin: auto;
-      width: 24px;
-      height: 24px;
-      animation: spin 1s linear infinite;
-    }
-  @keyframes bookList {
-    0% {
-      opacity: 0;
-      filter: blur(40px);
-    }
-    50% {
-      opacity: 0.3;
-      filter: blur(10px);
-    }
-    100% {
-      opacity: 1;
-      filter: blur(0);
-    }
-  }
-  .loaded book-list {
-    animation: bookList 0.25s ease-in-out;
-  }
-  .changing book-list {
-    animation: bookList 0.25s ease-in-out reverse;
-  }
-  .changed book-list {
-    opacity: 0;
-  }
-  .loader {
-    display: block;
-    text-align: center;
-  }
-  .complete .loader, .loading .loader {
-    display: none;
-  }
-  .items {
-    padding: 1rem;
-  }
-  </style><div class=${classMap({
+  return html`
+  <div class=${classMap({
     'header-row': true
   })}><span class="label">${library.items.length ||
-    ''} Items</span> <span><icon-button @click=${event => {
-  const modal = document.querySelector('ink-collection-modal')
-  if (modal) {
-    modal.state = { viewConfig, setViewConfig, library, setState, api, tag }
-  }
-  if (setModalRef) {
-    setModalRef(event.target)
-  }
-}} name="settings" label="Settings"></icon-button></span>
+    ''} Items</span> <span>${iconButton({
+  click: event => {
+    console.log(event.target, event.currentTarget)
+    opener(
+      'ink-collection',
+      { viewConfig, setViewConfig, library, setState, api, tag },
+      null,
+      event.target
+    )
+  },
+  name: 'settings',
+  label: 'Settings'
+})}</span>
 </div><div class=${classMap({
     items: true,
     loading: library.state === 'loading',
@@ -310,92 +224,7 @@ function loader (state) {
 }
 InkCollection.observedAttributes = ['collection']
 
-export const SettingsModal = ({
-  state = { viewConfig: defaultViewConfig },
-  tag
-}) => {
-  const { viewConfig, setViewConfig, library = {}, setState, api } = state
-  const [ref, setRef] = useState(false)
-  setModalRef = setRef
-  const options = [
-    {
-      text: 'Newest first',
-      value: 'datePublished',
-      selected: true
-    },
-    {
-      text: 'Oldest first',
-      value: 'datePublished-reversed',
-      selected: false
-    },
-    {
-      text: 'A-Z',
-      value: 'title',
-      label: 'Alphabetical, ascending',
-      selected: false
-    },
-    {
-      text: 'Z-A',
-      value: 'title-reversed',
-      label: 'Alphabetical, descending',
-      selected: false
-    }
-  ]
-  function onSelectChange (event) {
-    const path = event.composedPath()
-    const target = path[0]
-    const value = target.value.split('-')
-    let newOrder
-    if (value[0] === 'datePublished') {
-      newOrder = {
-        page: 1
-      }
-      if (value[1]) {
-        newOrder.reverse = 'true'
-      }
-    } else {
-      newOrder = {
-        orderBy: value[0],
-        page: 1
-      }
-      if (value[1]) {
-        newOrder.reverse = 'true'
-      }
-    }
-    const newParams = Object.assign({}, viewConfig.params, newOrder)
-    const newConfig = Object.assign({}, viewConfig, { params: newParams })
-    return getChanges(newConfig)
-  }
-  async function getChanges (newConfig) {
-    library.state = 'changing'
-    setState(library)
-    try {
-      const newLibrary = await api.library(
-        Object.assign({}, newConfig.params, { page: library.page })
-      )
-      newLibrary.state = 'loaded'
-      setViewConfig(newConfig)
-      setState(newLibrary)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-  return html`<menu-modal .open=${ref}><strong slot="modal-title">View Settings for &lsquo;${
-    viewConfig.name
-  }&rsquo;</strong><div slot="modal-body" class="Stack Stack--centered"><form><p style="text-align: center;"><ink-dropdown .change=${onSelectChange} .options=${options}>Ordered by </ink-dropdown></p></form>
-  <ink-button ?hidden=${!state.tag} @click=${() => {
-  const modal = document.getElementById('delete-collection')
-  if (modal) {
-    modal.open = true
-  }
-}} name="Remove Collection">Remove Collection</ink-button></div>
-  </menu-modal>`
-}
 window.customElements.define(
   'ink-collection',
-  component(InkCollection, window.HTMLElement)
-)
-window.customElements.define(
-  'ink-collection-modal',
-  component(SettingsModal, window.HTMLElement, { useShadowDOM: false })
+  component(InkCollection, window.HTMLElement, { useShadowDOM: false })
 )

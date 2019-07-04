@@ -1,10 +1,15 @@
 import { createModal, closer } from '../utils/create-modal.js'
 import { html } from 'lit-html'
+import { iconButton } from '../widgets/icon-button.js'
 
 const renderer = ({ book, current, returnPath }, config) => {
   return html`<header class="ModalHeader">
-  <icon-button name="cancel" @click=${() =>
-    closer()} data-autofocus="true">Close Menu</icon-button>
+    ${iconButton({
+    name: 'cancel',
+    click: () => closer(),
+    autofocus: true,
+    label: 'Close Menu'
+  })}
   <h2 class="ModalHeader-title" data-autofocus="true">Contents</h2>
   <span></span>
 </header>

@@ -6,7 +6,7 @@
 [data-is='icon-button']:focus {
   outline: solid transparent;
 }
-[data-is='icon-button'] .button {
+.icon-button {
   font-size: 1.25rem;
   line-height: 1rem;
   transform: translateY(-2px);
@@ -47,16 +47,16 @@
     stroke-width: 3px;
   }
 }
-[data-is='icon-button'] .button:focus {
+.icon-button:focus {
   background-color: #f5f5f5;
   outline: solid transparent;
   box-shadow: 0 0 1px 1px var(--rc-light), inset 0 0 1px 1px var(--rc-light);
 }
-[data-is='icon-button'] .button:focus svg {
+.icon-button:focus svg {
   animation: iconButtonPop 0.25s ease-in-out;
   stroke-width: 3px;
 }
-[data-is='icon-button'] .button:active {
+.icon-button:active {
   animation: iconButtonPop 0.25s ease-in-out;
   color: var(--active);
 }

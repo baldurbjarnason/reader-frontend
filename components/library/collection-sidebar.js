@@ -4,7 +4,7 @@ import { classMap } from 'lit-html/directives/class-map.js'
 import { component, useEffect } from 'haunted'
 // import './modal-closer.js'
 import '../widgets/button.js'
-import '../widgets/icon-button.js'
+import { iconButton } from '../widgets/icon-button.js'
 
 export const title = 'Collection Sidebar: `<collection-sidebar>`'
 
@@ -51,7 +51,7 @@ header {
   grid-template-columns: min-content 1fr min-content;
   align-items: center;
 }
-header icon-button {
+header .icon-button {
   padding: 0.25rem 0.5rem;
 }
 
@@ -181,14 +181,23 @@ header icon-button {
   })} data-modal-close>
       <div role="dialog" class="container" aria-modal="true" aria-labelledby="modal-1-title" >
         <header>
-          <icon-button name="cancel" data-modal-close>Close Menu</icon-button>
+          ${iconButton({
+    name: 'cancel',
+    'data-modal-close': true,
+    label: 'Close Menu'
+  })}
           <h2 class="title">Collections</h2>
-          <icon-button data-modal-close name="plus" @click=${ev => {
-    const modal = document.getElementById('create-collection')
-    if (modal) {
-      modal.open = true
+          ${iconButton({
+    name: 'plus',
+    'data-modal-close': true,
+    label: 'Create Collection',
+    click: ev => {
+      const modal = document.getElementById('create-collection')
+      if (modal) {
+        modal.open = true
+      }
     }
-  }}>Create Collection</icon-button>
+  })}
         </header>
         <div id="modal-1-content" class="content">
         <ol class="list">${uploadView(current, closer)}${allView(

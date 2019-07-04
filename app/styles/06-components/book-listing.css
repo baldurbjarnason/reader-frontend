@@ -1,7 +1,7 @@
 book-listing {
   position: relative;
 }
-.covers {
+book-listing > .covers {
   display: grid;
 }
 @keyframes withinPop {
@@ -18,7 +18,7 @@ book-listing {
     background-color: var(--rc-lighter);
   }
 }
-.covers:focus-within {
+book-listing > .covers:focus-within {
   background-color: var(--rc-lighter);
   box-shadow: 0 0 0 5px var(--rc-lighter);
   animation: withinPop 0.25s ease-in-out;

@@ -1,11 +1,11 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
-import { classMap } from 'lit-html/directives/class-map.js'
 import { navigate } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
+import { iconButton } from '../widgets/icon-button.js'
 
 export const Library = el => {
-  const { req, route } = el
+  const { req } = el
   const api = useContext(ApiContext)
   let name, view
   if (req.params.collection) {
@@ -65,8 +65,6 @@ export const Library = el => {
   <collection-sidebar id="modal-1" aria-hidden="true" .current=${
   req.params.collection
 } .collections=${tags}></collection-sidebar>
-
-<ink-collection-modal></ink-collection-modal>
 <ink-modal id="create-collection" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Create Collection</strong>
     <confirm-action slot="modal-body" .action=${() => {
@@ -115,9 +113,13 @@ window.customElements.define(
 )
 
 const LibraryHead = ({ name }) => {
-  return html`<icon-button @click=${ev => {
-    document.querySelector('collection-sidebar').open = true
-  }} name="menu">Menu Sidebar</icon-button> <span class="Library-name">${name}</span> <span></span>`
+  return html`${iconButton({
+    click: ev => {
+      document.querySelector('collection-sidebar').open = true
+    },
+    name: 'menu',
+    label: 'Menu Sidebar'
+  })} <span class="Library-name">${name}</span> <span></span>`
 }
 LibraryHead.observedAttributes = ['name']
 

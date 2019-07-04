@@ -1,0 +1,90 @@
+ink-collection .header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 1rem;
+  position: sticky;
+  top: 34px;
+  z-index: 2;
+  background-color: var(--main-background-color);
+}
+
+ink-collection .label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--medium);
+  margin: 0;
+}
+ink-collection icon-button {
+  height: 30px;
+  display: inline-block;
+}
+ink-collection span {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+ink-collection .loading {
+  min-height: 5rem;
+}
+ink-collection .loading-svg {
+  display: none;
+}
+ink-collection book-list {
+  display: block;
+}
+ink-collection .loading book-list {
+  opacity: 0;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+ink-collection .loading svg {
+  display: block;
+  margin: auto;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+@keyframes bookList {
+  0% {
+    opacity: 0;
+    filter: blur(40px);
+  }
+  50% {
+    opacity: 0.3;
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+ink-collection .loaded book-list {
+  animation: bookList 0.25s ease-in-out;
+}
+ink-collection .changing book-list {
+  animation: bookList 0.25s ease-in-out reverse;
+}
+ink-collection .changed book-list {
+  opacity: 0;
+}
+ink-collection .loader {
+  display: block;
+  text-align: center;
+}
+ink-collection .complete .loader,
+.loading .loader {
+  display: none;
+}
+ink-collection .items {
+  padding: 1rem;
+}

@@ -105,7 +105,8 @@ const modalStyles = `
   position: relative;
   display: flex;
   flex-direction: column;
-    box-shadow: 2px 2px 20px -4px rgba(0,0,0,0.25);
+  box-shadow: 2px 2px 20px -4px rgba(0,0,0,0.25);
+  z-index: 10;
 }
 @keyframes containerPop {
   0% {
@@ -140,7 +141,6 @@ if (!document.getElementById('what-a-modal-style')) {
 export function wrapEl (CustomClass, config) {
   return class Base extends wrapClass(CustomClass) {
     styleConfig (style = '') {
-      console.log(style, this.tagName)
       style = `${style}`
       super.styleConfig(style)
     }

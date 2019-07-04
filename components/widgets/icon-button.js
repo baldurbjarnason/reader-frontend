@@ -1,5 +1,6 @@
 import { html } from 'lit-html'
 import { createElement } from '../utils/create-element.js'
+import { virtual } from 'haunted'
 
 export const title = 'Icon Buttons: `<icon-button>`'
 
@@ -38,15 +39,13 @@ export const names = [
   'split'
 ]
 
-export const iconButtonRender = el => {
-  const { name, click, selected } = el
+export const iconButton = virtual(props => {
+  const { name, click, selected, label, autofocus } = props
   return html`
-          <button aria-label=${
-  el.textContent
-} class="button" @click=${click} ?selected=${selected} ?data-modal-close=${el.closest(
-  'icon-button[data-modal-close]'
-)}>${svg(name)}</button>`
-}
+          <button aria-label=${label} class="icon-button" @click=${click} ?autofocus=${autofocus} ?selected=${selected} ?data-modal-close=${
+  props['data-modal-close']
+}>${svg(name)}</button>`
+})
 
 export function svg (name) {
   switch (name) {
@@ -95,7 +94,7 @@ export function svg (name) {
   }
 }
 
-const IconButton = createElement(iconButtonRender, {
+const IconButton = createElement(iconButton, {
   observedAttributes: ['name', 'selected', 'label', 'data-modal-close']
 })
 

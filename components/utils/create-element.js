@@ -43,7 +43,7 @@ export const createElement = (
     useEffect(() => {
       el.styleConfig(style)
     }, [])
-    return render(el)
+    return html`${render(el)}`
   }
   if (observedAttributes) {
     renderWrap.observedAttributes = observedAttributes

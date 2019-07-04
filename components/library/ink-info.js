@@ -2,6 +2,7 @@ import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
 import { navigate } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
+import { iconButton } from '../widgets/icon-button.js'
 
 export const Info = el => {
   const { req } = el
@@ -174,24 +175,13 @@ window.customElements.define(
 )
 
 const InfoHead = ({ name }) => {
-  return html`<style>
-  
- info-head {
-    background-color: white;
-    margin: 0;
-    padding: 0.25rem 1rem;
-    position: sticky;
-    top: 0;
-    max-height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 2;
-    grid-column: 1/-1
-  }
-  </style><icon-button @click=${ev => {
-    navigate('/library')
-  }} name="cancel">Menu Sidebar</icon-button> <span class="menu-name">${name}</span> <span></span>`
+  return html`${iconButton({
+    click: ev => {
+      navigate('/library')
+    },
+    name: 'cancel',
+    label: 'Menu'
+  })} <span class="menu-name">${name}</span> <span></span>`
 }
 InfoHead.observedAttributes = ['name']
 
