@@ -66,27 +66,6 @@ export const preview = () => {
 
 export const BookList = ({ books = [], layout = 'covers' }) => {
   return html`
-    <style>
-.covers, .square, .list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(6rem, 0.5fr));
-  grid-gap: 0.5rem;
-  padding-bottom: 1rem;
-}
-.square {
-  padding: 0;
-  grid-gap: 1px;
-  grid-auto-rows: 1fr;
-  grid-template-columns: repeat(auto-fill, 6rem);
-}
-.list {
-  padding: 0;
-  grid-gap: 1px;
-  grid-template-columns: 1fr;
-}
-book-listing {
-  display: block;
-}</style>
     <div class=${layout}>
 ${repeat(
     books,
@@ -102,5 +81,7 @@ BookList.observedAttributes = ['layout']
 
 window.customElements.define(
   'book-list',
-  component(BookList, window.HTMLElement)
+  component(BookList, window.HTMLElement, {
+    useShadowDOM: false
+  })
 )

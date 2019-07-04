@@ -1,0 +1,23 @@
+book-list .covers,
+book-list .square,
+.book-list list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 0.5fr));
+  grid-gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+book-list .square {
+  padding: 0;
+  grid-gap: 1px;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fill, 6rem);
+}
+book-list .list {
+  padding: 0;
+  grid-gap: 1px;
+  grid-template-columns: 1fr;
+}
+book-list,
+book-list book-listing {
+  display: block;
+}
