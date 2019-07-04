@@ -16,4 +16,6 @@ const render = ({ name, returnPath, book, current }) => {
 const ReaderHead = createElement(render, {
   observedAttributes: ['name', 'returnPath']
 })
-window.customElements.define('reader-head', ReaderHead)
+window.customElements.define('reader-head', ReaderHead, {
+  useShadowDOM: false
+})

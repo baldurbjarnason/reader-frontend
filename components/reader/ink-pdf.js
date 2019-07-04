@@ -497,9 +497,7 @@ class InkPDFRender extends window.HTMLElement {
     return ['chapter', 'location', 'scale']
   }
 }
-window.customElements.define('ink-pdf-render', InkPDFRender, {
-  shadowRootInit: { delegatesFocus: true }
-})
+window.customElements.define('ink-pdf-render', InkPDFRender)
 
 const positionObserver = new window.IntersectionObserver(onPosition, {
   rootMargin: '0px 0px 0px 0px'
