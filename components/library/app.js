@@ -143,7 +143,7 @@ function createProfile (api, setProfile) {
     event.target.disable = 'true'
     event.target.setAttribute('working', 'true')
     api.profile.create().then(profile => setProfile(profile))
-  }}>Yes, create an account</ink-button></p>
+  }} name="Yes, create an account"></ink-button></p>
     </div>
   </div>
 </div>
@@ -162,7 +162,9 @@ function signIn () {
       <span></span>
       <form action="/login?returnTo=%2Flibrary" method="POST" id="sign-up-form">
         <ink-button @click=${() =>
-    document.getElementById('sign-up-form').submit()}>Sign Up</ink-button>
+    document
+      .getElementById('sign-up-form')
+      .submit()} name="Sign Up">Sign Up</ink-button>
       </form>
     </div>
   </div>
@@ -180,7 +182,7 @@ function signIn () {
         <text-button secondary @click=${() =>
     document
       .getElementById('sign-in-form')
-      .submit()}>Sign In</text-button>
+      .submit()} name="Sign In"></text-button>
       </form>
     </div>
   </div>

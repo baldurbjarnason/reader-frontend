@@ -1,4 +1,4 @@
-import * as textQuote from 'dom-anchor-text-quote'
+import * as textQuote from './selectors/dom-anchor-text-quote.js'
 import { html } from 'lit-html'
 import { virtual } from 'haunted'
 import { api } from '../api-provider.component.js'
@@ -10,7 +10,7 @@ export const HighlightButton = virtual(
       selectionRange && root
     )} @click=${() => {
       if (selectionRange && root) {
-        selector = textQuote.default.fromRange(root, selectionRange)
+        selector = textQuote.fromRange(root, selectionRange)
         const html = serializeRange(selectionRange)
         const content = `<blockquote data-original-quote>${html}</blockquote>`
         const docurl = new URL(document, window.location).href
@@ -58,7 +58,8 @@ function highlightNote (selector, root, id) {
     root,
     window.NodeFilter.SHOW_TEXT
   )
-  const range = textQuote.default.toRange(root, selector)
+  const range = textQuote.toRange(root, selector)
+  if (!range) return
   const start = range.startContainer
   const startOffset = range.startOffset
   const end = range.endContainer

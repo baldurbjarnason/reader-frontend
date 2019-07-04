@@ -62,10 +62,10 @@ async function getModule (path, hook) {
 //   })
 // }
 
-function setVisibility (hook) {
-  hook.visible = true
-  return getModule(hook.path, hook)
-}
+// function setVisibility (hook) {
+//   hook.visible = true
+//   return getModule(hook.path, hook)
+// }
 
 // export const useLazyModule = hook(
 //   class extends Hook {

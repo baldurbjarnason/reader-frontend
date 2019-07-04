@@ -15,10 +15,10 @@ export const preview = () => {
   return html`<ink-button @click=${() => {
     document.getElementById('modal-1').open = true
     document.getElementById('modal-1').collections = window.testTags
-  }}>open modal</ink-button><ink-button @click=${() => {
+  }} name="open modal">open modal</ink-button><ink-button @click=${() => {
     document.getElementById('modal-1').open = true
     document.getElementById('modal-1').current = 'This is a test collection'
-  }}>open modal</ink-button><collection-sidebar id="modal-1" aria-hidden="true"></collection-sidebar>`
+  }} name="open modal"></ink-button><collection-sidebar id="modal-1" aria-hidden="true"></collection-sidebar>`
 }
 
 export const CollectionSidebar = ({ collections = [], open, current }) => {
@@ -202,7 +202,7 @@ header icon-button {
     if (modal) {
       modal.open = true
     }
-  }} class="sign-out">Sign Out</ink-button>
+  }} class="sign-out" name="Sign Out">Sign Out</ink-button>
       </div>
     </div>`
 }

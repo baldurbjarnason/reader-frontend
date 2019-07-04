@@ -210,30 +210,30 @@ describe('api.state', () => {
     expect(response).to.include(fakeResponse)
   })
 
-  it('api.logout - logs out', async () => {
-    let called
-    const handler = {
-      get: function (obj, prop) {
-        if (prop === 'location') {
-          return {
-            reload () {
-              called = true
-            }
-          }
-        } else {
-          return obj[prop]
-        }
-      }
-    }
-    const fakeGlobal = new Proxy(window, handler)
-    window.api = createAPI(fakeGlobal)
-    const profile = { id: '/reader-user-id' }
+  // it('api.logout - logs out', async () => {
+  //   let called
+  //   const handler = {
+  //     get: function (obj, prop) {
+  //       if (prop === 'location') {
+  //         return {
+  //           reload () {
+  //             called = true
+  //           }
+  //         }
+  //       } else {
+  //         return obj[prop]
+  //       }
+  //     }
+  //   }
+  //   const fakeGlobal = new Proxy(window, handler)
+  //   window.api = createAPI(fakeGlobal)
+  //   const profile = { id: '/reader-user-id' }
 
-    window.fetchMock.post('/logout', 200)
-    window.fetchMock.get('/whoami', profile)
-    await window.api.logout()
-    expect(called).to.equal(true)
-  })
+  //   window.fetchMock.post('/logout', 200)
+  //   window.fetchMock.get('/whoami', profile)
+  //   await window.api.logout()
+  //   expect(called).to.equal(true)
+  // })
 
   // it('api.book.chapter - gets the chapter', async () => {
   //   const fakeDoc = { id: 'fake-chapter', type: 'Document' }
@@ -254,7 +254,9 @@ describe('api.state', () => {
   // })
 
   it('api.book.get - gets the book', async () => {
-    const fakeDoc = { id: 'fake-chapter', type: 'Document' }
+    const fakeDoc = { id: '/book-id/', type: 'Publication' }
+    fakeDoc.readingOrder = [{ url: 'fake-doc/doc.html' }]
+
     const profile = {
       id: '/reader-user-id',
       outbox: '/reader-user-id/outbox',
@@ -265,8 +267,8 @@ describe('api.state', () => {
     window.fetchMock.get('/whoami', profile)
 
     window.fetchMock.get('/book-id', fakeDoc)
-    const response = await window.api.book.get('book-id')
-    expect(response).to.include(fakeDoc)
+    const response = await window.api.book.get('/book-id')
+    expect(response.id).to.equal(fakeDoc.id)
   })
 
   afterEach(() => {

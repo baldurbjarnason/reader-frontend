@@ -1,0 +1,30 @@
+.ModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  align-items: center;
+}
+.ModalHeader icon-button {
+  padding: 0.25rem 0.5rem;
+}
+.ModalHeader-title {
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  padding: 0.25rem 2rem;
+  text-align: center;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  padding: 0.85rem 2rem;
+  text-align: center;
+  margin: 0;
+}

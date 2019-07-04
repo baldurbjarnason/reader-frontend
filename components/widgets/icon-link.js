@@ -14,4 +14,4 @@ const IconLink = createElement(render, {
   observedAttributes: ['label', 'dangerous', 'name', 'href']
 })
 
-window.customElements.define('icon-link', IconLink)
+window.customElements.define('icon-link', IconLink, { useShadowDOM: false })

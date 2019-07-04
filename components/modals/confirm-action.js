@@ -18,14 +18,14 @@ export const preview = () => {
   }
   return html`<ink-button @click=${() => {
     document.getElementById('modal-1').open = true
-  }}>open modal</ink-button><ink-modal id="modal-1" aria-hidden="true">
+  }} name="open modal">open modal</ink-button><ink-modal id="modal-1" aria-hidden="true">
     
   <strong slot="modal-title" class="Modal-name">Sign Out</strong>
   <confirm-action slot="modal-body" .action=${logout} name="Sign Out" question="" dangerous .view=${() =>
   'Are you sure that you want to sign out?'}></confirm-action></ink-modal>
   <ink-button @click=${() => {
     document.getElementById('modal-2').open = true
-  }}>open modal</ink-button><ink-modal id="modal-2" aria-hidden="true">
+  }} name="open modal">open modal</ink-button><ink-modal id="modal-2" aria-hidden="true">
     
   <strong slot="modal-title" class="Modal-name">Create Collection</strong>
   <confirm-action slot="modal-body" .action=${logout} name="Create" .view=${() =>
@@ -67,13 +67,13 @@ confirm-action .Modal-row {
 }
   </style>
   <div class="Modal-paragraph">${view && view()}</div>
-  <div class="Modal-row"><text-button closer>Cancel</text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} @click=${() => {
+  <div class="Modal-row"><text-button closer name="Cancel"></text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} @click=${() => {
   setWorking(true)
   return action().then(() => {
     setWorking(false)
     close()
   })
-}}>${name}</ink-button></div>`
+}} name=${name}>${name}</ink-button></div>`
 }
 ConfirmBody.observedAttributes = ['name', 'question', 'dangerous']
 

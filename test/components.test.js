@@ -45,7 +45,6 @@ describe('<ink-button>', () => {
   it('ink-button basic render', async () => {
     const el = await fixture(previewButton())
     expect(el).dom.to.equalSnapshot()
-    expect(el).shadowDom.to.equalSnapshot()
   })
 })
 describe('<ink-dropdown>', () => {
@@ -71,12 +70,10 @@ describe('<icon-button>', () => {
         html`<icon-button selected name="${name}">Icon Label - Selected</icon-button>`
       )
       expect(el).dom.to.equalSnapshot()
-      expect(el).shadowDom.to.equalSnapshot()
       const el2 = await fixture(
         html`<icon-button name="${name}">Icon Label - Not Selected</icon-button>`
       )
       expect(el2).dom.to.equalSnapshot()
-      expect(el2).shadowDom.to.equalSnapshot()
     }
   })
 })

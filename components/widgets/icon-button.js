@@ -1,5 +1,5 @@
 import { html } from 'lit-html'
-import { component } from 'haunted'
+import { createElement } from '../utils/create-element.js'
 
 export const title = 'Icon Buttons: `<icon-button>`'
 
@@ -38,74 +38,9 @@ export const names = [
   'split'
 ]
 
-export const IconButton = el => {
+export const iconButtonRender = el => {
   const { name, click, selected } = el
-  return html`<style>
-:host {
-  line-height:1;
-  display: inline-block;
-  height: 24px;
-}
-:host(:focus) {
-  outline: solid transparent;
-}
-.button {
-  font-size: 1.25rem;
-  line-height: 1rem;
-  transform: translateY(-2px);
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  text-align: center;
-  white-space: nowrap;
-  text-decoration: none;
-  text-transform: uppercase;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  border: none;
-  background-color: transparent;
-  color: var(--rc-dark);
-
-  height: 24px;
-    width: 24px;
-    margin: 0;
-    padding: 0;
-  border-radius: 9999px;
-}
-@keyframes outlinePop {
-  0% {
-    transform: scale(0.5);
-    stroke-width: 1px;
-  }
-  50% {
-    transform: scale(1.5);
-    stroke-width: 4px;
-  }
-  100% {
-    transform: scale(1);
-    stroke-width: 3px;
-  }
-}
-.button:focus {
-  background-color: #f5f5f5;
-  outline: solid transparent;
-  box-shadow: 0 0 1px 1px var(--rc-light), inset 0 0 1px 1px var(--rc-light);
-}
-.button:focus svg {
-  animation: outlinePop 0.25s ease-in-out;
-  stroke-width: 3px;
-}
-.button:active {
-  animation: outlinePop 0.25s ease-in-out;
-  color: var(--active);
-}
-[selected] svg {
-  fill: var(--rc-light);
-}
-  </style>
+  return html`
           <button aria-label=${
   el.textContent
 } class="button" @click=${click} ?selected=${selected} ?data-modal-close=${el.closest(
@@ -159,16 +94,9 @@ export function svg (name) {
       break
   }
 }
-IconButton.observedAttributes = [
-  'name',
-  'selected',
-  'label',
-  'data-modal-close'
-]
 
-window.customElements.define(
-  'icon-button',
-  component(IconButton, window.HTMLElement, {
-    shadowRootInit: { delegatesFocus: true }
-  })
-)
+const IconButton = createElement(iconButtonRender, {
+  observedAttributes: ['name', 'selected', 'label', 'data-modal-close']
+})
+
+window.customElements.define('icon-button', IconButton)

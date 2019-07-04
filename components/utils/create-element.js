@@ -32,7 +32,12 @@ export const wrapClass = CustomClass => {
 
 export const createElement = (
   render,
-  { style, observedAttributes, wrapEl = wrapClass, Base = window.HTMLElement }
+  {
+    style,
+    observedAttributes,
+    wrapEl = wrapClass,
+    Base = window.HTMLElement
+  } = {}
 ) => {
   function renderWrap (el) {
     useEffect(() => {

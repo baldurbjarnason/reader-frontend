@@ -14,9 +14,9 @@ export const description = `The the menu modal card, wraps its light-dom in a mo
 export const preview = () => {
   return html`<ink-button dropdown @click=${event => {
     document.getElementById('modal-1').open = event.target
-  }}>open modal</ink-button><ink-button dropdown @click=${event => {
+  }} name="open modal">open modal</ink-button><ink-button dropdown @click=${event => {
     document.getElementById('modal-1').open = event.target
-  }}>open bigger</ink-button><menu-modal id="modal-1"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></menu-modal>`
+  }} name="open bigger">open bigger</ink-button><menu-modal id="modal-1"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></menu-modal>`
 }
 
 export const InkMenuModal = ({ open }) => {

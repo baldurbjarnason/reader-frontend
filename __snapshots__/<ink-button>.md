@@ -3,18 +3,14 @@
 #### `ink-button basic render`
 
 ```html
-<ink-button>
-  Fancy Button
+<ink-button
+  data-is="ink-button"
+  name="Fancy Button"
+>
+  <button class="">
+    Fancy Button
+  </button>
 </ink-button>
-
-```
-
-```html
-<button class="">
-  <slot>
-    Button
-  </slot>
-</button>
 
 ```
 

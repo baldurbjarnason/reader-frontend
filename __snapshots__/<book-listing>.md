@@ -12,7 +12,7 @@
 <div class="undefined">
   <a
     class="icon-link"
-    href="/library/info/id"
+    href="/info/id"
   >
     <img
       alt=""
@@ -24,15 +24,12 @@
     <h4 class="BookCard-title">
       <a
         class="BookCard-link"
-        href="/library/info/id"
+        href="/info/id"
       >
         Book Title
       </a>
     </h4>
     <p class="BookCard-paragraph">
-      <span class="BookCard-attribution">
-        Fancy Author
-      </span>
     </p>
     <p class="BookCard-total">
     </p>

@@ -14,9 +14,9 @@ export const description = `The the modal card, wraps its light-dom in a modal`
 export const preview = () => {
   return html`<ink-button @click=${() => {
     document.getElementById('modal-1').open = true
-  }}>open modal</ink-button><ink-button @click=${() => {
+  }} name="open modal">open modal</ink-button><ink-button @click=${() => {
     document.getElementById('modal-2').open = true
-  }}>open bigger</ink-button><ink-modal id="modal-1" aria-hidden="true"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-modal><ink-modal full id="modal-2" aria-hidden="true"><strong slot="modal-title">Full Screen Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-modal>`
+  }} name="open bigger">open bigger</ink-button><ink-modal id="modal-1" aria-hidden="true"><strong slot="modal-title">Fancy Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-modal><ink-modal full id="modal-2" aria-hidden="true"><strong slot="modal-title">Full Screen Title</strong><p slot="modal-body" style="padding: 1rem;">Fancy body</p></ink-modal>`
 }
 
 export const InkModal = ({ open, full }) => {

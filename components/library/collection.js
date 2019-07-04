@@ -288,7 +288,7 @@ export const InkCollection = ({ collection }) => {
     console.error(err)
   }
   setButton({ loading: false })
-}}>Show More...</ink-button>
+}} name="Show More...">Show More...</ink-button>
 </div>`
 }
 
@@ -388,7 +388,7 @@ export const SettingsModal = ({
   if (modal) {
     modal.open = true
   }
-}}>Remove Collection</ink-button></div>
+}} name="Remove Collection">Remove Collection</ink-button></div>
   </menu-modal>`
 }
 window.customElements.define(

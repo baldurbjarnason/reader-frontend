@@ -3,45 +3,6 @@ import { createElement } from '../utils/create-element.js'
 import { opener } from '../utils/create-modal.js'
 import '../widgets/icon-link.js'
 
-const style = `
-reader-head {
-  margin: 0;
-  padding: 0.25rem;
-  position: sticky;
-  top: 0;
-  max-height: 2rem;
-  grid-column: 2 / 3;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-}
-reader-head button {
-  font-size: 1.25rem;
-  line-height: 1rem;
-  transform: translateY(-2px);
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  text-align: center;
-  white-space: nowrap;
-  text-decoration: none;
-  text-transform: uppercase;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  border: none;
-  background-color: transparent;
-  color: var(--rc-dark);
-
-  height: 24px;
-    width: 24px;
-    margin: 0;
-    padding: 0;
-  border-radius: 9999px;
-}`
-
 const render = ({ name, returnPath, book, current }) => {
   return html`<ol class="App-menu-list">
     <li><button aria-label="Contents" @click=${ev => {
@@ -53,7 +14,6 @@ const render = ({ name, returnPath, book, current }) => {
 }
 
 const ReaderHead = createElement(render, {
-  observedAttributes: ['name', 'returnPath'],
-  style
+  observedAttributes: ['name', 'returnPath']
 })
 window.customElements.define('reader-head', ReaderHead)

@@ -64,12 +64,13 @@ export function createBookAPI (context, api, global) {
     // Returns sanitised DOM for navigation, generating if necessary
     async navigation (book) {
       const { resources = [] } = book
-      const bookPath = new URL(book.id).pathname
+      const bookURL = new URL(book.id, window.location)
+      const bookPath = bookURL.pathname
       const navResource = resources.filter(resource =>
         resource.rel.includes('contents')
       )[0]
       if (navResource) {
-        const navURL = new URL(navResource.url, book.id).href
+        const navURL = new URL(navResource.url, bookURL).href
         return this.chapter(navURL, true)
       } else {
         const dom = html`<ol class="Contents-list">${book.readingOrder.map(
@@ -365,7 +366,7 @@ DOMPurify.addHook('afterSanitizeAttributes', function (node) {
 })
 
 function addNav (book) {
-  const rootPath = new URL(book.id).pathname
+  const rootPath = new URL(book.id, window.location).pathname
   const navigation = {}
   let index
   if (book.position && book.position.path) {
