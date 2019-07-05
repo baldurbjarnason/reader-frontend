@@ -1,6 +1,5 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
-import { navigate } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
 import { iconButton } from '../widgets/icon-button.js'
 import { opener } from '../utils/create-modal.js'
@@ -38,26 +37,6 @@ export const Library = el => {
     req.params.collection
   }></library-head>
   ${view()}
-
-<ink-modal id="delete-collection" aria-hidden="true">
-    <strong slot="modal-title" class="Modal-name">Delete Collection</strong>
-    <confirm-action dangerous slot="modal-body" .action=${() => {
-    return Promise.resolve()
-      .then(() => {
-        console.log(tags)
-        if (tags) {
-          const tag = tags.filter(
-            tag => tag.name === req.params.collection
-          )[0]
-          return api.activity.delete(tag)
-        }
-      })
-      .then(() => {
-        document.getElementById('delete-collection').closer = true
-        return navigate('/library')
-      })
-  }} name="Delete" .view=${() =>
-  html`<p>Are you sure you want to delete this collection?</p><p>(This action will not delete the collection's items.)</p>`}></confirm-action></ink-modal>
 
 <ink-modal id="sign-out" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Sign Out</strong>

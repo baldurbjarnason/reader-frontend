@@ -1,0 +1,14 @@
+#delete-collection {
+  left: 5vw;
+  top: 25vh;
+  position: fixed;
+  width: 90vw;
+}
+#delete-collection-document {
+  margin: auto;
+  max-width: 27rem;
+}
+
+#delete-collection-document .Modal-paragraph {
+  text-align: center;
+}

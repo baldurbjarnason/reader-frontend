@@ -1,4 +1,4 @@
-input {
+input[type='text'] {
   font-family: var(--sans-fonts);
   font-size: 0.85rem;
   padding: 0.25rem;

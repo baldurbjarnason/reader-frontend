@@ -1,6 +1,7 @@
-import { createModal, closer } from '../utils/create-modal.js'
+import { createModal, closer, opener } from '../utils/create-modal.js'
 import { html } from 'lit-html'
 import { iconButton } from '../widgets/icon-button.js'
+import './delete-collection.js'
 
 export const renderer = ({
   viewConfig = {},
@@ -84,11 +85,12 @@ export const renderer = ({
 }&rsquo;</h2>
   <span></span>
 </header><div slot="modal-body" class="Stack Stack--centered"><form><p style="text-align: center;"><ink-dropdown .change=${onSelectChange} .options=${options}>Ordered by </ink-dropdown></p></form>
-  <ink-button ?hidden=${!tag} @click=${() => {
+  <ink-button ?hidden=${!tag} .click=${() => {
   const modal = document.getElementById('delete-collection')
   if (modal) {
     modal.open = true
   }
+  opener('delete-collection', { tag })
 }} name="Remove Collection">Remove Collection</ink-button></div>`
 }
 
