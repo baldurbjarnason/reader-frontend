@@ -3,6 +3,8 @@ import { component, useState, useEffect, useContext } from 'haunted'
 import { navigate } from '../hooks/useRoutes.js'
 import { ApiContext } from '../api-provider.component.js'
 import { iconButton } from '../widgets/icon-button.js'
+import { opener } from '../utils/create-modal.js'
+import './delete-publication.js'
 
 export const Info = el => {
   const { req } = el
@@ -100,24 +102,6 @@ export const Info = el => {
     }}> ${tag.name}</label></li>`
   }
   return html`
-  <style>
-  ink-info {
-    display: grid;
-    grid-template-rows: 2rem auto;
-    grid-template-columns: 1fr 1fr;
-  }
-  ink-info .Cover {
-    padding: 1rem;
-  }
-  ink-info .Cover-icon {
-    max-width: 40vw;
-  }
-  ink-info ink-button {
-    display: block;
-    text-align:center;
-    margin-bottom: 1rem;
-  }
-  </style>
   <info-head name=${book.name}></info-head>
   <div class="Cover">
   <img class="Cover-icon" alt="${book.description ||
@@ -143,27 +127,10 @@ export const Info = el => {
 }.${format}`}>Download Original</a></li>
       <li>
     <a class="actions-button actions-button--secondary actions-button--dangerous" @click=${ev => {
-    const modal = document.getElementById('delete-publication')
-    if (modal) {
-      modal.open = true
-    }
+    opener('delete-publication', { book })
   }}>Delete</a></li>
     </ol>
-  </div><ink-modal id="delete-publication" aria-hidden="true">
-    <strong slot="modal-title" class="Modal-name">Delete Publication</strong>
-    <confirm-action dangerous slot="modal-body" .action=${() => {
-    return Promise.resolve()
-      .then(() => {
-        if (book) {
-          return api.activity.delete(book)
-        }
-      })
-      .then(() => {
-        document.getElementById('delete-publication').closer = true
-        return navigate('/library')
-      })
-  }} name="Delete" .view=${() =>
-  html`<p>Are you sure you want to delete this publication?</p>`}></confirm-action></ink-modal>`
+  </div>`
 }
 
 const attributionComponent = attribution => {

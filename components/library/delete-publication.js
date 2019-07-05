@@ -4,14 +4,14 @@ import { modalHeader } from '../widgets/modalHeader.js'
 import { navigate } from '../hooks/useRoutes.js'
 import { api } from '../api-provider.component.js'
 
-const renderer = ({ tag }) => {
+const renderer = ({ book }) => {
   return html`
-  ${modalHeader({ title: 'Delete Collection' })}
+  ${modalHeader({ title: 'Delete Publication' })}
   <confirm-action dangerous slot="modal-body" .action=${() => {
     return Promise.resolve()
       .then(() => {
-        if (tag) {
-          return api.activity.delete(tag)
+        if (book) {
+          return api.activity.delete(book)
         }
       })
       .then(() => {
@@ -19,7 +19,7 @@ const renderer = ({ tag }) => {
         return navigate('/library')
       })
   }} name="Delete" .view=${() =>
-  html`<p>Are you sure you want to delete this collection?</p><p>(This action will not delete the collection's items.)</p>`}></confirm-action>`
+  html`<p>Are you sure you want to delete this publication?</p>`}></confirm-action>`
 }
 
-createModal('delete-collection', renderer)
+createModal('delete-publication', renderer)
