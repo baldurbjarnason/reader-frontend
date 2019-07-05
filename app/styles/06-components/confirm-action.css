@@ -1,0 +1,31 @@
+confirm-action {
+  display: block;
+  padding: 0.5rem 1rem !important;
+}
+confirm-action[dangerous] {
+  border-bottom: 0.5rem solid #af4014;
+}
+
+confirm-action .Modal-paragraph {
+  margin: 0.5rem 0 1rem;
+}
+confirm-action .Modal-name {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.25;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  margin: 0 2rem 1rem;
+  text-align: center;
+  display: block;
+}
+
+confirm-action .Modal-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+confirm-action input {
+  width: 100%;
+}

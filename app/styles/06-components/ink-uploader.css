@@ -82,3 +82,8 @@
   display: block;
   animation: uploaderButtonPop 0.25s ease-in-out;
 }
+
+upload-section {
+  display: block;
+  padding: 1rem;
+}

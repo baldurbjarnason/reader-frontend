@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useState } from 'haunted'
-import { close } from '../hooks/useModal.js'
+import { closer } from '../utils/create-modal.js'
 import '../widgets/button.js'
 import '../widgets/text-button.js'
 import './modal.js'
@@ -35,43 +35,12 @@ export const preview = () => {
 export const ConfirmBody = ({ action, name, dangerous, view }) => {
   const [working, setWorking] = useState(false)
   return html`
-  <style>
-  confirm-action {
-    display: block;
-    padding: 0.5rem 1rem !important;
-  }
-  confirm-action[dangerous] {
-    border-bottom: 0.5rem solid #af4014;
-  }
-
-  confirm-action .Modal-paragraph {
-  text-align: center;
-  margin: 0.5rem 0 1rem;
-}
-confirm-action .Modal-name {
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.25;
-  box-sizing: border-box;
-  text-transform: uppercase;
-  margin: 0 2rem 1rem;
-  text-align: center;
-  display: block;
-}
-
-confirm-action .Modal-row {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: center;
-}
-  </style>
   <div class="Modal-paragraph">${view && view()}</div>
-  <div class="Modal-row"><text-button closer name="Cancel"></text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} @click=${() => {
+  <div class="Modal-row"><text-button closer name="Cancel"></text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} .click=${() => {
   setWorking(true)
   return action().then(() => {
     setWorking(false)
-    close()
+    closer()
   })
 }} name=${name}>${name}</ink-button></div>`
 }

@@ -167,7 +167,6 @@ export const InkCollection = ({ collection }) => {
   })}><span class="label">${library.items.length ||
     ''} Items</span> <span>${iconButton({
   click: event => {
-    console.log(event.target, event.currentTarget)
     opener(
       'ink-collection',
       { viewConfig, setViewConfig, library, setState, api, tag },
@@ -184,12 +183,13 @@ export const InkCollection = ({ collection }) => {
     loaded: library.state === 'loaded',
     changing: library.state === 'changing',
     changed: library.state === 'changing',
-    complete: library.totalItems === library.items.length
+    complete:
+      library.totalItems === null || library.totalItems === library.items.length
   })}>${loader(library.state)}<book-list @animationend=${event =>
   removeAnimationClasses(event)} .books=${library.items}></book-list>
 <ink-button secondary class="loader" ?working=${button.loading} ?disabled=${
   button.loading
-} @click=${async event => {
+} .click=${async event => {
   setButton({ loading: true })
   try {
     const libraryAdditions = await api.library(

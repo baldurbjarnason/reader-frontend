@@ -202,9 +202,9 @@ img {
   height: auto;
   max-width: 100%;
 }
-button:focus {
-  outline: 1px solid #3333331a;
-  outline-offset: 1px;
+*:focus {
+  outline: 2px solid #b8f4f266;
+  outline-offset: 0;
 }
 
 ink-modal[aria-hidden='true'],

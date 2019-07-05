@@ -34,53 +34,11 @@ export const Library = el => {
         .catch(err => console.error(err))
     })
   }, [])
-  return html`<style>
-  ink-library {
-    display: block;
-    padding: 0;
-  }
-  library-head {
-    background-color: white;
-    margin: 0;
-    padding: 0.25rem 1rem;
-    position: sticky;
-    top: 0;
-    max-height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 2;
-  }
-  upload-section {
-    display: block;
-    padding: 1rem;
-  }
-  library-head .Library-name {
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--medium);
-  }
-  </style><library-head name=${name} .collections=${tags} .current=${
-  req.params.collection
-}></library-head>
+  return html`<library-head name=${name} .collections=${tags} .current=${
+    req.params.collection
+  }></library-head>
   ${view()}
-<ink-modal id="create-collection" aria-hidden="true">
-    <strong slot="modal-title" class="Modal-name">Create Collection</strong>
-    <confirm-action slot="modal-body" .action=${() => {
-    const name = document.getElementById('collection-name').value
-    document.getElementById('collection-name').value = ''
-    const tag = {
-      type: 'reader:Tag',
-      tagType: 'reader:Stack',
-      name
-    }
-    return api.activity.create(tag).then(() => {
-      api.events.emit('tag')
-      navigate(`/library/${encodeURIComponent(name)}`)
-    })
-  }} name="Create" .view=${() =>
-  html`<label class="Label">Name<br><input type="text" name="collection-name" id="collection-name"></label>`}></confirm-action></ink-modal>
+
 <ink-modal id="delete-collection" aria-hidden="true">
     <strong slot="modal-title" class="Modal-name">Delete Collection</strong>
     <confirm-action dangerous slot="modal-body" .action=${() => {

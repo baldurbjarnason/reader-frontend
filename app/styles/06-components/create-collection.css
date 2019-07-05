@@ -1,0 +1,10 @@
+#create-collection {
+  left: 5vw;
+  top: 25vh;
+  position: fixed;
+  width: 90vw;
+}
+#create-collection-document {
+  margin: auto;
+  max-width: 27rem;
+}

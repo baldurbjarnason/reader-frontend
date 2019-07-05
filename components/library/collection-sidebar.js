@@ -5,6 +5,7 @@ import { virtual } from 'haunted'
 import '../widgets/button.js'
 import { iconButton } from '../widgets/icon-button.js'
 import { createModal, closer, opener } from '../utils/create-modal.js'
+import './create-collection.js'
 
 export const title = 'Collection Sidebar: `<collection-sidebar>`'
 
@@ -36,10 +37,7 @@ export const collectionSidebar = virtual(({ collections = [], current }) => {
     'data-modal-close': true,
     label: 'Create Collection',
     click: ev => {
-      const modal = document.getElementById('create-collection')
-      if (modal) {
-        modal.open = true
-      }
+      opener('create-collection')
     }
   })}
         </header>

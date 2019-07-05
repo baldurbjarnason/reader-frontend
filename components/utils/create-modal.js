@@ -19,6 +19,7 @@ let activeModal
 const modalStyles = `
 .what-a-modal {
   --arrow-size: 10px;
+  z-index: 5;
 }
 .what-a-modal[aria-hidden='true'] {
   visibility: hidden;
@@ -190,11 +191,6 @@ export function wrapEl (CustomClass, config) {
       }
       for (const child of document.body.children) {
         if (child !== this) {
-          console.log(
-            child,
-            child.hasAttribute('aria-hidden'),
-            child.hasAttribute('inert')
-          )
           if (child.hasAttribute('aria-hidden')) {
             child.setAttribute(
               'data-keep-hidden',
