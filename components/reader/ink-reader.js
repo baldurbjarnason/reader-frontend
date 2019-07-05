@@ -59,7 +59,7 @@ export const Reader = el => {
           .filter(uri => !uri.includes('.epub'))
           .filter(uri => !uri.includes('.opf'))
         window.requestAnimationFrame(() => {
-          quicklink({ urls }).catch(err => console.error(err))
+          quicklink({ urls })
         })
       }
       return () => {

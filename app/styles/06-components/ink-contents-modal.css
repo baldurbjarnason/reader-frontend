@@ -50,7 +50,7 @@
 }
 
 #ink-contents-document .content > * {
-  margin: auto;
+  margin: 0;
 }
 
 #ink-contents-document .row {
