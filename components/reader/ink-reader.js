@@ -7,9 +7,10 @@ import quicklink from 'quicklink/dist/quicklink.mjs'
 import '../widgets/icon-link.js'
 import './reader-head.js'
 import './contents-modal.js'
+import './readable-chapter.js'
 
 export const Reader = el => {
-  const { req, route } = el
+  const { req } = el
   const api = useContext(ApiContext)
   const [book, setBook] = useState({
     type: 'loading',
@@ -80,8 +81,13 @@ export const Reader = el => {
   if (book.type === 'loading') {
     view = () => html`<div class="Loading"></div>`
   } else if (book.json.epubVersion) {
-    view = () =>
-      html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></ink-chapter>`
+    if (document.head.createShadowRoot || document.head.attachShadow) {
+      view = () =>
+        html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></ink-chapter>`
+    } else {
+      view = () =>
+        html`<readable-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></readable-chapter>`
+    }
   } else if (book.json.pdfInfo) {
     view = () => html`<ink-pdf .setSelection=${setSelection} .setHighlight=${setHighlight}  chapter=${chapter} location=${location} .api=${api}>
     <div><div id="viewer" class="pdfViewer">

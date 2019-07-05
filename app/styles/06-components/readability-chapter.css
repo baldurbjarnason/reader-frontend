@@ -1,0 +1,190 @@
+[data-is='readability-chapter'] {
+  all: initial;
+  position: relative;
+  line-height: var(--reader-line-height);
+  font-size: var(--reader-font-size);
+  color: var(--reader-text-color);
+  font-family: 'Source Serif Pro', serif;
+  background-color: var(--reader-background-color);
+  line-height: var(--reader-line-height);
+  display: block;
+  contain: content;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(var(--reader-left-margin), 0.5fr) minmax(
+      var(--reader-min-column-width),
+      var(--reader-max-column-width)
+    ) minmax(var(--reader-left-margin), 0.5fr);
+  grid-template-areas: 'leftmargin maintext rightmargin';
+}
+[data-is='readability-chapter'].is-loading {
+  opacity: 0.5;
+}
+[data-is='readability-chapter'] .Highlight {
+  background-color: #ffff98;
+}
+
+[data-is='readability-chapter'] .Highlight--selected {
+  background-color: #ddddd0;
+}
+
+[data-is='readability-chapter'] .chapter-body {
+  grid-area: maintext;
+  min-width: var(--reader-min-column-width);
+  max-width: var(--reader-max-column-width);
+  margin: 0;
+}
+[data-is='readability-chapter'] [hidden],
+[data-is='readability-chapter'] template {
+  display: none !important;
+}
+[data-is='readability-chapter'] head {
+  display: none;
+}
+
+[data-is='readability-chapter'] blockquote {
+  margin-left: 2.5em;
+}
+
+[data-is='readability-chapter'] blockquote,
+[data-is='readability-chapter'] blockquote p {
+  font-size: 0.75rem;
+  font-size: calc(var(--reader-font-size) * 0.85);
+  line-height: 1.2;
+}
+
+[data-is='readability-chapter'] blockquote * + * {
+  margin-top: calc(var(--reader-paragraph-spacing) * 0.85);
+}
+[data-is='readability-chapter'] blockquote * {
+  margin-bottom: 0;
+}
+[data-is='readability-chapter'] blockquote :first-child {
+  margin: 0;
+}
+[data-is='readability-chapter'] h1 {
+  font-size: 2em;
+  font-size: calc(var(--reader-font-size) * 3);
+  font-weight: 600;
+  margin: 0;
+}
+
+[data-is='readability-chapter'] h2 {
+  font-weight: 600;
+  font-size: calc(var(--reader-font-size) * 2);
+  margin: 0;
+}
+[data-is='readability-chapter'] h3 {
+  font-weight: 400;
+  font-style: italic;
+  font-size: calc(var(--reader-font-size) * 1.5);
+  margin: 0;
+}
+[data-is='readability-chapter'] h4 {
+  font-weight: normal;
+  font-size: calc(var(--reader-font-size) * 1.25);
+  margin: 0;
+}
+[data-is='readability-chapter'] h5 {
+  font-weight: normal;
+  font-size: var(--reader-font-size);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+[data-is='readability-chapter'] h6 {
+  font-weight: normal;
+  font-size: var(--reader-font-size);
+  margin: 0;
+}
+
+[data-is='readability-chapter'] h1,
+[data-is='readability-chapter'] h2,
+[data-is='readability-chapter'] h3,
+[data-is='readability-chapter'] h4,
+[data-is='readability-chapter'] h5,
+[data-is='readability-chapter'] h6 {
+  margin-bottom: var(--reader-paragraph-spacing);
+}
+
+[data-is='readability-chapter'] p,
+[data-is='readability-chapter'] div,
+[data-is='readability-chapter'] td,
+[data-is='readability-chapter'] figure,
+[data-is='readability-chapter'] figcaption {
+  line-height: var(--reader-line-height);
+  font-size: 0.85rem;
+  font-size: var(--reader-font-size, 0.85rem);
+}
+
+[data-is='readability-chapter'] a[href] {
+  transition: box-shadow 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22),
+    transform 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22);
+  text-decoration: underline;
+}
+[data-is='readability-chapter'] :link {
+  color: var(--link);
+}
+[data-is='readability-chapter'] :visited {
+  color: var(--visited);
+}
+[data-is='readability-chapter'] a:link:hover {
+  color: var(--hover);
+}
+[data-is='readability-chapter'] a {
+  border-radius: 2rem;
+}
+@keyframes readableChapterPop {
+  0% {
+    box-shadow: 0 0 0 1px rgb(228, 255, 254, 0.2);
+    background-color: rgb(228, 255, 254, 0.2);
+    transform: scale(0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px var(--rc-lighter);
+    transform: scale(1.5);
+  }
+  100% {
+    box-shadow: 0 0 0 3px var(--rc-lighter);
+    background-color: var(--rc-lighter);
+    transform: scale(1);
+  }
+}
+[data-is='readability-chapter'] a:focus {
+  background-color: var(--rc-lighter);
+  box-shadow: 0 0 0 5px var(--rc-lighter);
+  outline: solid transparent;
+  animation: readableChapterPop 0.25s ease-in-out;
+}
+
+[data-is='readability-chapter'] a:link:active {
+  color: var(--active);
+}
+[data-is='readability-chapter'] b,
+[data-is='readability-chapter'] strong,
+[data-is='readability-chapter'] b > *,
+[data-is='readability-chapter'] strong > * {
+  font-weight: 600;
+}
+[data-is='readability-chapter'] svg,
+[data-is='readability-chapter'] img {
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+[data-is='readability-chapter'] .is-current {
+  background-color: #f9f9f9;
+  box-shadow: 0 0 0 0.25rem #f9f9f9;
+}
+/* .is-current:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -1rem;
+  width: 0.15rem;
+  height: 100%;
+  display: block;
+  background-color: var(--rc-medium);
+  top: 0;
+} */
