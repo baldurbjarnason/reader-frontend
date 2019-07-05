@@ -6,6 +6,7 @@ import '../widgets/button.js'
 import { iconButton } from '../widgets/icon-button.js'
 import { createModal, closer, opener } from '../utils/create-modal.js'
 import './create-collection.js'
+import './sign-out.js'
 
 export const title = 'Collection Sidebar: `<collection-sidebar>`'
 
@@ -48,11 +49,8 @@ export const collectionSidebar = virtual(({ collections = [], current }) => {
 )}
   ${collections.map(tag => tagView(tag, current, closer))}</ol>
         </div>
-        <ink-button data-modal-close @click=${ev => {
-    const modal = document.getElementById('sign-out')
-    if (modal) {
-      modal.open = true
-    }
+        <ink-button data-modal-close .click=${ev => {
+    opener('sign-out')
   }} class="sign-out" name="Sign Out">Sign Out</ink-button>
       </div>
     </div>`

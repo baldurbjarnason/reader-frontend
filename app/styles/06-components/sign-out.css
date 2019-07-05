@@ -1,0 +1,14 @@
+#sign-out {
+  left: 5vw;
+  top: 25vh;
+  position: fixed;
+  width: 90vw;
+}
+#sign-out-document {
+  margin: auto;
+  max-width: 27rem;
+}
+
+#sign-out-document .Modal-paragraph {
+  text-align: center;
+}

@@ -36,13 +36,7 @@ export const Library = el => {
   return html`<library-head name=${name} .collections=${tags} .current=${
     req.params.collection
   }></library-head>
-  ${view()}
-
-<ink-modal id="sign-out" aria-hidden="true">
-    <strong slot="modal-title" class="Modal-name">Sign Out</strong>
-    <confirm-action slot="modal-body" .action=${() =>
-    api.logout()} name="Sign Out" dangerous .view=${() =>
-  'Are you sure that you want to sign out?'}></confirm-action></ink-modal>`
+  ${view()}`
 }
 window.customElements.define(
   'ink-library',
