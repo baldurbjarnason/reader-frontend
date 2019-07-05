@@ -3,7 +3,6 @@ import { component, useState } from 'haunted'
 import { closer } from '../utils/create-modal.js'
 import '../widgets/button.js'
 import '../widgets/text-button.js'
-import './modal.js'
 
 export const title = 'Confirm Action modal body: `<confirm-action>`'
 
@@ -36,7 +35,8 @@ export const ConfirmBody = ({ action, name, dangerous, view }) => {
   const [working, setWorking] = useState(false)
   return html`
   <div class="Modal-paragraph">${view && view()}</div>
-  <div class="Modal-row"><text-button closer name="Cancel"></text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} .click=${() => {
+  <div class="Modal-row"><text-button .click=${() =>
+    closer()} name="Cancel"></text-button> <ink-button ?working=${working} ?disabled=${working} ?dangerous=${dangerous} .click=${() => {
   setWorking(true)
   return action().then(() => {
     setWorking(false)
