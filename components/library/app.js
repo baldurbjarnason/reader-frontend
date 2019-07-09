@@ -88,7 +88,7 @@ export const App = el => {
   }
 .Card {
   background-color: #fff;
-  max-width: 95vw;
+  max-width: 500px;
   max-height: 100vh;
   min-width: 300px;
   overflow-y: auto;
@@ -100,6 +100,10 @@ export const App = el => {
   box-shadow: 1px 1px 14px -2px rgba(0,0,0,0.15);
   padding: 1rem;
 }
+.Card h2 {
+
+  line-height: 1.2;
+}
 
 .Card--flat {
   box-shadow: none;
@@ -110,6 +114,10 @@ export const App = el => {
   justify-content: space-around;
   align-items: center;
   height: 100vh;
+  background-image: url(https://rebus.ink/wp-content/themes/nudge-rebus/assets/green/header_bg.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  padding: 5vh 5vw;
 }
 .center {
   text-align: center;
@@ -132,7 +140,8 @@ function createProfile (api, setProfile) {
   Do you want to create a Rebus Ink account?
   </h2>
   <div id="modal-1-content" class="Modal-content">
-    <p class="Modal-text">Since this is your first time here, we just wanted to double-check that you want to create a Rebus Ink account and accept our terms of service.</p>
+    <p class="Modal-text">You will need to provide your email address in order to create a new account. No other data will be collected and your email will not be shared with any third parties. We may use your email address to contact you for technical-support reasons, but not for promotional purposes. (If you would like to receive our newsletter, however, subscribe on the <a href="https://rebus.ink/contact/">Rebus Ink contact page.</a>)
+</p>
     <div class="center">
       <p><a href="https://google.com/">No thanks, I&rsquo;ll find something else to do</a></p>
       
