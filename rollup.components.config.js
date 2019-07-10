@@ -12,7 +12,8 @@ export default {
   output: [{
     dir: 'js/components',
     format: 'es',
-    sourcemap: true
+    sourcemap: true,
+    entryFileNames: '[name].[hash].js'
   }],
   plugins: [
     resolve({

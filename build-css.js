@@ -6,6 +6,8 @@ const reporter = require('postcss-reporter')
 const easyImport = require('postcss-easy-import')
 const calc = require('postcss-calc')
 const fs = require('fs')
+const crypto = require('crypto')
+const buildHtml = require('./build-html.js')
 
 fs.readFile('app/index.css', (err, css) => {
   if (err) {
@@ -13,7 +15,6 @@ fs.readFile('app/index.css', (err, css) => {
   }
   postcss([
     easyImport,
-    require('stylelint'),
     properties(),
     calc(),
     autoprefixer,
@@ -36,13 +37,20 @@ fs.readFile('app/index.css', (err, css) => {
       return result
     })
     .then(result => {
-      fs.writeFile('static/styles/app.css', result.css, () =>
-        console.log('app.css')
+      const hash = crypto
+        .createHash('md5')
+        .update(css)
+        .digest('hex')
+        .substr(0, 8)
+      fs.writeFile(`static/styles/app.${hash}.css`, result.css, () =>
+        console.log(`static/styles/app.${hash}.css`)
       )
       if (result.map) {
-        fs.writeFile('static/styles/app.css.map', result.map, () =>
-          console.log('app.css.map')
+        fs.writeFile(`static/styles/app.${hash}.css.map`, result.map, () =>
+          console.log(`static/styles/app.${hash}.css.map`)
         )
       }
+    }).then(() => {
+      buildHtml()
     })
 })

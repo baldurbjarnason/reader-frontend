@@ -15,7 +15,7 @@
     "start": "node index.js",
     "build-css": "node build-css.js && echo 'css done'",
     "build-components": "rollup -c rollup.components.config.js",
-    "build": "node build-css.js && rollup -c && npm run build-vendor",
+    "build": "rollup -c && npm run build-vendor && node build-css.js ",
     "build-vendor": "pika-web --clean --optimize --dest=js/vendor && cp -r node_modules/pdfjs-dist/ js/pdfjs-dist/ && rollup -c rollup.vendor.config.js",
     "deploy-dev": "gcloud app deploy app-development.yaml",
     "deploy-staging": "gcloud app deploy app-staging.yaml",
