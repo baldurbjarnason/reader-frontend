@@ -1,0 +1,24 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.App-working {
+  padding-right: 1.75rem;
+}
+.App-working svg {
+  display: inline-block;
+  content: '';
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  animation: spin 0.5s linear infinite;
+  width: 16px;
+  height: 16px;
+}

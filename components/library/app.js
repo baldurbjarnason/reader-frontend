@@ -61,74 +61,7 @@ export const App = el => {
   } else {
     renderResult = route.render
   }
-  return html`<style>
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    50% {
-      transform: rotate(180deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  .App-working {
-    padding-right: 1.75rem;
-  }
-  .App-working svg {
-    display: inline-block;
-    content: '';
-      position: absolute;
-      top: 7px;
-      right: 10px;
-    animation: spin 0.5s linear infinite;
-    width: 16px;
-    height: 16px;
-  }
-.Card {
-  background-color: #fff;
-  max-width: 500px;
-  max-height: 100vh;
-  min-width: 300px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 1px 1px 14px -2px rgba(0,0,0,0.15);
-  padding: 1rem;
-}
-.Card h2 {
-
-  line-height: 1.2;
-}
-
-.Card--flat {
-  box-shadow: none;
-  background-color: rgba(255,255,255, 0.85);
-}
-.TwoUp {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 100vh;
-  background-image: url(https://rebus.ink/wp-content/themes/nudge-rebus/assets/green/header_bg.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-  padding: 5vh 5vw;
-}
-.center {
-  text-align: center;
-}
-
-@media (max-width: 840px) {
-  .TwoUp {
-    flex-direction: column;
-  }
-}
-</style>
+  return html`
 ${renderResult(req, route)}`
 }
 

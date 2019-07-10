@@ -1,0 +1,22 @@
+.Card {
+  background-color: #fff;
+  max-width: 500px;
+  max-height: 100vh;
+  min-width: 300px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 14px -2px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+}
+.Card h2 {
+  line-height: 1.2;
+}
+
+.Card--flat {
+  box-shadow: none;
+  background-color: rgba(255, 255, 255, 0.85);
+}

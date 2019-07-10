@@ -1,0 +1,19 @@
+.TwoUp {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+  background-image: url(https://rebus.ink/wp-content/themes/nudge-rebus/assets/green/header_bg.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  padding: 5vh 5vw;
+}
+.center {
+  text-align: center;
+}
+
+@media (max-width: 840px) {
+  .TwoUp {
+    flex-direction: column;
+  }
+}
