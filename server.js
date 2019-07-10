@@ -42,11 +42,7 @@ function setup (authserver) {
 
   app.use('/', require('./server/routes/front-page.js'))
   app.use('/', require('./server/routes/library.js'))
-  // app.use('/', require('./server/routes/notes.js'))
   app.use('/', require('./server/routes/reader-book.js'))
-  // app.use('/', require('./server/routes/reader-chapter.js'))
-  // app.use('/', require('./server/routes/process-chapter.js'))
-  // app.use('/', require('./server/routes/refresh-token.js'))
   app.use('/', require('./server/routes/process-url.js'))
   app.use('/images', require('./server/routes/images.js'))
   app.use('/', require('./server/routes/asset.js'))

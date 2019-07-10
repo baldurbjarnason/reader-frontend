@@ -82,7 +82,6 @@ function authserver (options) {
 
   app.use('/', require('../routes/login.js'))
   app.use('/', require('../routes/logout.js'))
-  app.use('/', require('../routes/refresh-token.js'))
   return app
 }
 
