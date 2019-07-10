@@ -9,8 +9,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -24,8 +24,8 @@
   name="cancel"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -39,8 +39,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -54,8 +54,8 @@
   name="left-chevron"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -69,8 +69,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -84,8 +84,8 @@
   name="right-chevron"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -99,8 +99,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -114,8 +114,8 @@
   name="left-arrow"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -129,8 +129,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -144,8 +144,8 @@
   name="right-arrow"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -159,8 +159,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -174,8 +174,8 @@
   name="grid"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -189,8 +189,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -204,8 +204,8 @@
   name="menu"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -219,8 +219,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -234,8 +234,8 @@
   name="settings"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -249,8 +249,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -264,8 +264,8 @@
   name="search"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -279,8 +279,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -294,8 +294,8 @@
   name="highlight"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -309,8 +309,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -324,8 +324,8 @@
   name="vertical-ellipsis"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -339,8 +339,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -354,8 +354,8 @@
   name="horizontal-ellipsis"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -369,8 +369,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -384,8 +384,8 @@
   name="filled-bookmark"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -399,8 +399,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -414,8 +414,8 @@
   name="bookmark"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -429,8 +429,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -444,8 +444,8 @@
   name="comment"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -459,8 +459,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -474,8 +474,8 @@
   name="comment-square"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -489,8 +489,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -504,8 +504,8 @@
   name="enter-fullscreen"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -519,8 +519,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -534,8 +534,8 @@
   name="exit-fullscreen"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>
@@ -549,8 +549,8 @@
   selected=""
 >
   <button
-    aria-label="Icon Label - Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
     selected=""
   >
   </button>
@@ -564,8 +564,8 @@
   name="split"
 >
   <button
-    aria-label="Icon Label - Not Selected"
-    class="button"
+    aria-label="undefined"
+    class="icon-button"
   >
   </button>
 </icon-button>

@@ -1,5 +1,14 @@
-import { HTTPError } from '../../app/utils/http-error.js'
-
+class HTTPError extends Error {
+  constructor (type, message, response) {
+    super(message)
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, HTTPError)
+    }
+    this.httpMethod = type
+    this.status = response.status
+    this.response = response
+  }
+}
 export async function fetchWrap (...args) {
   const response = await window.fetch(...args)
   if (!response.ok) {

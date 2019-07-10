@@ -24,7 +24,6 @@ describe('<book-list>', () => {
   it('book-list basic render', async () => {
     const el = await fixture(previewBookList())
     expect(el).dom.to.equalSnapshot()
-    expect(el).shadowDom.to.equalSnapshot()
   })
 })
 
@@ -60,7 +59,6 @@ describe('<ink-contents>', () => {
     await el.updateComplete
     await nextFrame()
     expect(el).dom.to.equalSnapshot()
-    expect(el).shadowDom.to.equalSnapshot()
   })
 })
 describe('<icon-button>', () => {

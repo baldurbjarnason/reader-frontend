@@ -13,6 +13,5 @@ describe('<book-listing>', () => {
       }}></book-listing>`
     )
     expect(el).dom.to.equalSnapshot()
-    expect(el).shadowDom.to.equalSnapshot()
   })
 })

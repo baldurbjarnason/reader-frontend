@@ -5,37 +5,35 @@
 ```html
 <api-provider>
   <ink-collection>
-  </ink-collection>
-  <ink-collection-modal>
-    <menu-modal aria-hidden="true">
-      <strong slot="modal-title">
-        View Settings for ‘
-        defaultViewConfig
-        ’
-      </strong>
-      <div
-        class="Stack Stack--centered"
-        slot="modal-body"
-      >
-        <form>
-          <p style="text-align: center;">
-            <ink-dropdown>
-              Ordered by
-            </ink-dropdown>
-          </p>
-        </form>
-        <ink-button
-          data-is="ink-button"
-          hidden=""
-          name="Remove Collection"
+    <div class="header-row">
+      <span class="label">
+        Items
+      </span>
+      <span>
+        <button
+          aria-label="Settings"
+          class="icon-button"
         >
-          <button class="">
-            Remove Collection
-          </button>
-        </ink-button>
-      </div>
-    </menu-modal>
-  </ink-collection-modal>
+        </button>
+      </span>
+    </div>
+    <div class="items loading">
+      <book-list>
+        <div class="covers">
+        </div>
+      </book-list>
+      <ink-button
+        class="loader"
+        data-is="ink-button"
+        name="Show More..."
+        secondary=""
+      >
+        <button class="secondary">
+          Show More...
+        </button>
+      </ink-button>
+    </div>
+  </ink-collection>
 </api-provider>
 
 ```
