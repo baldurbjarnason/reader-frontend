@@ -18,7 +18,7 @@
 should be initially based on fetch.js
 
 */
-import { get, fetchWrap } from './api/fetch.js'
+import { get } from './api/fetch.js'
 import { createProfileAPI } from './api/profile.js'
 import { createBookAPI } from './api/book.js'
 import { createActivityAPI } from './api/activity.js'
@@ -49,6 +49,7 @@ export function createAPI (global = window) {
   return api
 }
 
+/* istanbul ignore next */
 async function logout (context, global) {
   const form = document.createElement('form')
   form.setAttribute('action', '/logout')

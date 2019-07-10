@@ -1,6 +1,6 @@
 import { createEpub } from './epub/index.js'
 import { createPDF } from './pdf/index.js'
-
+// Loads of istanbul ignores here as this is primarily about loading vendor code using well tested routines.
 /* istanbul ignore next */
 async function zipModule () {
   if (window.JSZip) return window.JSZip
@@ -38,6 +38,7 @@ export function createFormatsAPI (context, api, global) {
   }
 }
 
+/* istanbul ignore next */
 function loadJS (src, cb, ordered) {
   var tmp
   var ref = document.getElementsByTagName('script')[0]
