@@ -25,7 +25,7 @@ module.exports = function build () {
   <head>
   <link media="all" rel="stylesheet" href="/${css}">
   <title>Rebus Ink</title>
-  <script src="/js/vendor/document-register-element.js"></script>
+  <script src="/js/vendor/document-register-element.js" nomodule></script>
   <script>
     try {
       import('/js/components/index.${hash}.js')
