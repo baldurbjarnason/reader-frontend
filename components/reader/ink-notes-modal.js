@@ -28,8 +28,6 @@ const renderer = ({ note, saver }, config) => {
 
 createModal('ink-notes', renderer, { popper: true })
 
-const cache = new Map()
-
 class InkComment extends window.HTMLElement {
   constructor () {
     super()
@@ -52,9 +50,6 @@ class InkComment extends window.HTMLElement {
   }
   render () {
     let { content } = this.note
-    if (cache.get(this.note.id)) {
-      content = cache.get(this.note.id)
-    }
     let dom = DOMPurify.sanitize(content, purifyConfig)
     const container = document.createElement('div')
     container.classList.add('ReaderNote-textarea')
@@ -97,13 +92,17 @@ class InkComment extends window.HTMLElement {
     })
     this.quill.on('text-change', () => {
       const content = this.querySelector('.ql-editor').innerHTML
-      cache.set(this.note.id, content)
+      const customEvent = new window.CustomEvent('reader:notes-text-change', {
+        detail: { id: this.note.id, content }
+      })
+      window.dispatchEvent(customEvent)
     })
   }
 }
 window.customElements.define('ink-comment', InkComment)
 
 export const preview = () => {
+  const cache = new Map()
   return html`<button id="test-button" @click=${event =>
     opener(
       'ink-notes',
@@ -123,10 +122,11 @@ export const preview = () => {
       'ink-notes',
       {
         note: {
-          content: '<p>Test2</p>',
+          content: cache.get('/note-id2') || '<p>Test2</p>',
           id: '/note-id2'
         },
         saver (id, content) {
+          cache.set(id, content)
           console.log(id, content)
         }
       },
