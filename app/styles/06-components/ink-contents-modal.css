@@ -111,24 +111,3 @@
   text-align: left;
   border: none;
 }
-
-ink-comment blockquote {
-  position: relative;
-  background-color: #f7f7f7;
-  margin: 0;
-  padding: 0.5rem 0.5rem 0.5rem 2.5rem;
-  line-height: var(--reader-line-height);
-  font-size: var(--reader-font-size);
-  color: var(--reader-text-color);
-  font-family: 'Source Serif Pro', serif;
-  border-bottom: 1px solid #ddd;
-}
-ink-comment::after {
-  content: '“';
-  position: absolute;
-  top: 1.5rem;
-  left: 0.25rem;
-  font-size: 4rem;
-  color: #ddd;
-  font-family: 'Source Serif Pro', serif;
-}

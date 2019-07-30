@@ -2,7 +2,7 @@ import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
 import { ApiContext } from '../api-provider.js'
 import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
-import { HighlightButton, RemoveHighlightButton } from './highlight.js'
+import { HighlightButton } from './highlight.js'
 import quicklink from 'quicklink/dist/quicklink.mjs'
 import '../widgets/icon-link.js'
 import './reader-head.js'
@@ -135,11 +135,7 @@ export const Reader = el => {
     : ''
 }</li>
 <li class="App-menu-centre">
-${HighlightButton(
-    selectionRange,
-    chapter,
-    req.params.bookId
-  )}${RemoveHighlightButton(selectedHighlight)}</li>
+${HighlightButton(selectionRange, chapter, req.params.bookId)}</li>
     <li>${
   next
     ? html`

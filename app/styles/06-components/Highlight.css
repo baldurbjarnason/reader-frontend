@@ -5,3 +5,7 @@
 .Highlight--selected {
   background-color: #ddddd0;
 }
+
+.Highlight--commented {
+  outline: #f0f000 0.125rem solid;
+}

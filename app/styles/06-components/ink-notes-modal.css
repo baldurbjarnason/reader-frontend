@@ -5,13 +5,15 @@
   min-width: 300px;
   box-sizing: border-box;
   position: fixed;
-  left: 0;
+  right: 0;
   top: 0;
   bottom: 0;
   display: flex;
   flex-direction: column;
   box-shadow: 1px 1px 14px -2px rgba(0, 0, 0, 0.15);
   z-index: 10;
+  display: flex;
+  justify-content: space-between;
 }
 .full #ink-notes-document {
   width: 100%;
@@ -89,4 +91,37 @@
   100% {
     box-shadow: 0 0 0 3px #f5ffff;
   }
+}
+#ink-notes-document .Row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.125rem 0.25rem;
+}
+
+ink-comment {
+  display: block;
+  flex: 1 1 100%;
+}
+
+ink-comment blockquote {
+  position: relative;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+  line-height: var(--reader-line-height);
+  font-size: var(--reader-font-size);
+  color: var(--reader-text-color);
+  font-family: 'Source Serif Pro', serif;
+  border-bottom: 1px solid #ddd;
+}
+ink-comment blockquote::after {
+  content: '“';
+  position: absolute;
+  top: 2.5rem;
+  left: 0.25rem;
+  font-size: 4rem;
+  color: #ddd;
+  line-height: 1px;
+  font-family: 'Source Serif Pro', serif;
 }

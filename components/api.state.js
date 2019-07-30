@@ -40,6 +40,7 @@ export function createAPI (global = window) {
       return collection
     }
   }
+  api.get = get
   api.profile = createProfileAPI(context, api, global)
   api.book = createBookAPI(context, api, global)
   api.activity = createActivityAPI(context, api, global)

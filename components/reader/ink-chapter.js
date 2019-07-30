@@ -130,6 +130,9 @@ export const InkChapter = el => {
 .Highlight--selected {
   background-color: #ddddd0;
 }
+.Highlight--commented {
+  outline: #f0f000 0.125rem solid;
+}
 
 .chapter-body {
   grid-area: maintext;
