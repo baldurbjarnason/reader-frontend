@@ -51,21 +51,33 @@ class InkComment extends window.HTMLElement {
   render () {
     let { content } = this.note
     let dom = DOMPurify.sanitize(content, purifyConfig)
+    const blockquote = dom.querySelector('blockquote')
+    dom.removeChild(blockquote)
     const container = document.createElement('div')
     container.classList.add('ReaderNote-textarea')
     container.classList.add('ql-container')
     container.classList.add('ql-snow')
     container.id = 'test' + '-textarea'
-    container.appendChild(dom)
+    container.append(dom)
     const oldContainer = this.querySelector('.ql-container')
     if (oldContainer) {
       this.removeChild(oldContainer)
     }
+    if (this.querySelector('blockquote')) {
+      this.removeChild(this.querySelector('blockquote'))
+    }
     if (this.querySelector('.ql-toolbar')) {
       this.removeChild(this.querySelector('.ql-toolbar'))
     }
+    this.appendChild(blockquote)
     this.appendChild(container)
     this.setup()
+  }
+  content () {
+    return `<blockquote data-original-quote>${
+      this.querySelector('blockquote').innerHTML
+    }</blockquote>${this.querySelector('.ql-editor').innerHTML}
+    `
   }
   setup () {
     const container = this.querySelector('.ql-container')
@@ -86,14 +98,12 @@ class InkComment extends window.HTMLElement {
         this.classList.add('InkComment--hasFocus')
       } else {
         this.classList.remove('InkComment--hasFocus')
-        const content = this.querySelector('.ql-editor').innerHTML
-        this.saver(this.note.id, content)
+        this.saver(this.note.id, this.content())
       }
     })
     this.quill.on('text-change', () => {
-      const content = this.querySelector('.ql-editor').innerHTML
       const customEvent = new window.CustomEvent('reader:notes-text-change', {
-        detail: { id: this.note.id, content }
+        detail: { id: this.note.id, content: this.content() }
       })
       window.dispatchEvent(customEvent)
     })
@@ -108,7 +118,9 @@ export const preview = () => {
       'ink-notes',
       {
         note: {
-          content: '<p>Test1</p>',
+          content:
+            cache.get('/note-id1') ||
+            '<blockquote data-original-quote><p>Original Quote</p></blockquote><p>Test1</p>',
           id: '/note-id1'
         },
         saver (id, content) {
@@ -122,7 +134,9 @@ export const preview = () => {
       'ink-notes',
       {
         note: {
-          content: cache.get('/note-id2') || '<p>Test2</p>',
+          content:
+            cache.get('/note-id2') ||
+            '<blockquote data-original-quote><p>Original Quote</p><ul><li>This is a list</li><li><a href="http://google.com/">This is a link</a></li></ul></blockquote><p>Test2</p>',
           id: '/note-id2'
         },
         saver (id, content) {

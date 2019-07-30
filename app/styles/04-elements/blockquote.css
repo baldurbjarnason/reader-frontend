@@ -2,8 +2,7 @@ blockquote {
   margin-left: 2.5em;
 }
 
-blockquote,
-blockquote p {
+blockquote {
   font-size: 0.75rem;
   font-size: calc(var(--reader-font-size) * 0.85);
   line-height: 1.2;
@@ -15,6 +14,6 @@ blockquote * + * {
 blockquote * {
   margin-bottom: 0;
 }
-blockquote :first-child {
+blockquote > :first-child {
   margin: 0;
 }
