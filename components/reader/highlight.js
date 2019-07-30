@@ -1,4 +1,5 @@
 import * as textQuote from './selectors/dom-anchor-text-quote.js'
+import seek from './selectors/dom-seek.js'
 import { html } from 'lit-html'
 import { virtual } from 'haunted'
 import { api } from '../api-provider.js'
@@ -42,50 +43,39 @@ export const RemoveHighlightButton = virtual(({ noteId, root }) => {
       root
         .querySelectorAll(`reader-highlight[data-note-id="${noteId}"]`)
         .forEach(highlight => highlight.replaceWith(...highlight.childNodes))
-      const customEvent = new window.CustomEvent(
-        'reader:highlight-deselected',
-        {
-          detail: { id: noteId }
-        }
-      )
+      // This needs to delete the note.
+      const customEvent = new window.CustomEvent('reader:highlight-deleted', {
+        detail: { id: noteId }
+      })
       window.dispatchEvent(customEvent)
     }
   }}>Remove Highlight</button>`
 })
 
 function highlightNote (selector, root, id) {
-  const iterator = document.createNodeIterator(
-    root,
-    window.NodeFilter.SHOW_TEXT
-  )
-  const range = textQuote.toRange(root, selector)
-  if (!range) return
-  const start = range.startContainer
-  const startOffset = range.startOffset
-  const end = range.endContainer
-  const endOffset = range.endOffset
-  if (start === end && start.splitText) {
-    const startNode = start.splitText(startOffset)
-    startNode.splitText(endOffset - startOffset)
-    range.setStart(startNode, 0)
-    range.setEnd(startNode, startNode.length - 1)
-  } else {
-    if (start && start.splitText && startOffset && startOffset !== 0) {
-      const startNode = start.splitText(startOffset)
-      range.setStart(startNode, 0)
+  const seeker = document.createNodeIterator(root, window.NodeFilter.SHOW_TEXT)
+  function split (where) {
+    const count = seek(seeker, where)
+    if (count !== where) {
+      // Split the text at the offset
+      seeker.referenceNode.splitText(where - count)
+
+      // Seek to the exact offset.
+      seek(seeker, where - count)
     }
-    if (end && end.splitText && endOffset && endOffset !== 0) {
-      const endNode = end.splitText(endOffset)
-      range.setEnd(endNode.previousSibling, endNode.previousSibling.length - 1)
+    return seeker.referenceNode
+  }
+  const positions = textQuote.toTextPosition(root, selector)
+  const start = split(positions.start)
+  split(positions.end - positions.start)
+  var nodes = []
+  while (seeker.referenceNode !== start) {
+    const node = seeker.previousNode()
+    if (node !== start) {
+      nodes.push(node)
     }
   }
-  while (iterator.referenceNode !== range.startContainer) {
-    iterator.nextNode()
-  }
-  var nodes = [iterator.referenceNode]
-  while (iterator.referenceNode !== range.endContainer) {
-    nodes.push(iterator.nextNode())
-  }
+  console.log(nodes)
   for (var i = 0; i < nodes.length; i++) {
     const node = nodes[i]
     if (
