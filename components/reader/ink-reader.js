@@ -81,13 +81,15 @@ export const Reader = el => {
   if (book.type === 'loading') {
     view = () => html`<div class="Loading"></div>`
   } else if (book.json.epubVersion) {
-    if (document.head.createShadowRoot || document.head.attachShadow) {
-      view = () =>
-        html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></ink-chapter>`
-    } else {
-      view = () =>
-        html`<readable-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></readable-chapter>`
-    }
+    view = () =>
+      html`<readable-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></readable-chapter>`
+    // if (document.head.createShadowRoot || document.head.attachShadow) {
+    //   view = () =>
+    //     html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></ink-chapter>`
+    // } else {
+    //   view = () =>
+    //     html`<readable-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></readable-chapter>`
+    // }
   } else if (book.json.pdfInfo) {
     view = () => html`<ink-pdf .setSelection=${setSelection} .setHighlight=${setHighlight}  chapter=${chapter} location=${location} .api=${api}>
     <div><div id="viewer" class="pdfViewer">

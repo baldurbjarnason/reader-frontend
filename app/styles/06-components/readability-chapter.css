@@ -19,6 +19,9 @@ readable-chapter {
     minmax(var(--reader-left-margin), 0.5fr);
   grid-template-areas: 'leftmargin maintext rightmargin';
 }
+readable-chapter > * {
+  grid-area: maintext;
+}
 readable-chapter.is-loading {
   opacity: 0.5;
 }

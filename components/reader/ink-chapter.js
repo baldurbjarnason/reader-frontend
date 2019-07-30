@@ -31,8 +31,9 @@ export const InkChapter = el => {
     [location, resource]
   )
   useEffect(() => {
-    function handleSelection () {
+    function handleSelection (event) {
       const range = getRange(el.shadowRoot)
+      console.log(event, range)
       if (range && range.collapsed !== true) {
         setSelection({ selectionRange: range, root: el.shadowRoot })
       } else {

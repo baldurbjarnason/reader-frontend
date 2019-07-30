@@ -1,14 +1,13 @@
 import { html } from 'lit-html'
-import { component, useContext, useState, useEffect } from 'haunted'
+import { component, useState, useEffect } from 'haunted'
 import { api } from '../api-provider.js'
-import { getRange } from 'shadow-selection-polyfill'
 import { highlightNotes } from './highlight.js'
 
 export const title = 'readable Chapter display: `<readable-chapter>`'
 
 export const description = `This renders the chapter HTML with only readable CSS.`
 
-// http://localhost:8080/demo/?component=/components/reader/readability-chapter.js
+// http://localhost:8080/demo/?component=/components/reader/readable-chapter.js
 export const preview = () => {
   return html`<readable-chapter chapter="/demo/chapter/demo.html"></readable-chapter>`
 }
@@ -32,11 +31,14 @@ export const readableChapter = el => {
   )
   useEffect(() => {
     function handleSelection () {
-      const range = getRange(el)
-      if (range && range.collapsed !== true) {
-        setSelection({ selectionRange: range, root: el })
-      } else {
-        setSelection({})
+      const selection = document.getSelection()
+      if (selection.rangeCount !== 0) {
+        const range = selection.getRangeAt(0)
+        if (range && range.collapsed !== true) {
+          setSelection({ selectionRange: range, root: el })
+        } else {
+          setSelection({})
+        }
       }
     }
     document.addEventListener('selectionchange', handleSelection)
@@ -64,7 +66,7 @@ export const readableChapter = el => {
             if (resource.nextDom) {
               return Promise.resolve(resource.nextDom)
             } else {
-              return api.book.chapter(chapter, true, book)
+              return api.book.chapter(chapter, false, book)
             }
           })
           .then(dom => {
@@ -76,7 +78,7 @@ export const readableChapter = el => {
           .then(dom => {
             const { next } = dom
             if (next) {
-              return api.book.chapter(next, true, book).then(nextDom => {
+              return api.book.chapter(next, false, book).then(nextDom => {
                 dom.nextDom = nextDom
                 setChapter(dom)
               })
@@ -102,7 +104,7 @@ export const readableChapter = el => {
     },
     [resource]
   )
-  return html`${resource.dom}`
+  return html`<div class="readable-chapter-body">${resource.dom}</div>`
 }
 readableChapter.observedAttributes = ['chapter', 'location', 'readable']
 
