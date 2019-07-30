@@ -126,22 +126,21 @@ class ReaderHighlight extends window.HTMLElement {
   handleEvent (event) {
     if (
       event.type === 'click' &&
-      !this.classList.contains('Highlight--selected')
+      !this.classList.contains('Highlight--selected') &&
+      !this.opened
     ) {
-      const customEvent = new window.CustomEvent('reader:highlight-selected', {
-        detail: { id: this.dataset.noteId }
-      })
-      window.dispatchEvent(customEvent)
-      api
+      this.opened = api
         .get(this.dataset.noteId)
         .then(note =>
           opener('ink-notes', commentState(note, this.root), 'Comment')
         )
+        .then(() => {
+          this.opened = undefined
+        })
     }
   }
   disconnectedCallback () {
     this.removeEventListener('click', this)
-    this.removeEventListener('reader:highlight-selected', this)
   }
 }
 window.customElements.define('reader-highlight', ReaderHighlight)

@@ -3,7 +3,6 @@ import { component, useState, useEffect, useContext } from 'haunted'
 import { ApiContext } from '../api-provider.js'
 import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
 import { HighlightButton } from './highlight.js'
-import quicklink from 'quicklink/dist/quicklink.mjs'
 import '../widgets/icon-link.js'
 import './reader-head.js'
 import './contents-modal.js'
@@ -40,7 +39,9 @@ export const Reader = el => {
         el.dataset.format = 'pdf'
       }
       function handleLifeCycle (event) {
-        const root = document.querySelector('ink-chapter, ink-pdf')
+        const root = document.querySelector(
+          'readable-chapter, ink-chapter, ink-pdf'
+        )
         const current = root.getAttribute('current')
         const chapter = root.getAttribute('chapter')
         if (
@@ -52,16 +53,6 @@ export const Reader = el => {
         }
       }
       lifecycle.addEventListener('statechange', handleLifeCycle)
-      if (book && book.id) {
-        const rootPath = new URL(book.id).pathname
-        const urls = book.resources
-          .map(item => `${rootPath}${item.url}`)
-          .filter(uri => !uri.includes('.epub'))
-          .filter(uri => !uri.includes('.opf'))
-        window.requestAnimationFrame(() => {
-          quicklink({ urls })
-        })
-      }
       return () => {
         lifecycle.removeEventListener('statechange', handleLifeCycle)
       }

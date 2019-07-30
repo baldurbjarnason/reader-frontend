@@ -17,7 +17,6 @@ export const readableChapter = el => {
   const [resource, setChapter] = useState(
     html`<div class="loading">Loading</div>`
   )
-  console.log(el, resource)
   useEffect(
     () => {
       const element = document.getElementById(location)
@@ -99,7 +98,7 @@ export const readableChapter = el => {
         followLocations(el)
       }
       if (notes && resource) {
-        window.requestAnimationFrame(() => highlightNotes(el.shadowRoot, notes))
+        window.requestAnimationFrame(() => highlightNotes(el, notes))
       }
     },
     [resource]
