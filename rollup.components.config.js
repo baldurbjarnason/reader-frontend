@@ -5,6 +5,7 @@ import { terser } from 'rollup-plugin-terser'
 import { string } from 'rollup-plugin-string'
 import glob from 'glob'
 import json from 'rollup-plugin-json'
+import clear from 'rollup-plugin-clear'
 const input = glob.sync('components/**/*.{component,hook}.js')
 
 export default {
@@ -16,6 +17,7 @@ export default {
     entryFileNames: '[name].[hash].js'
   }],
   plugins: [
+    clear({targets: ['js/components']}),
     resolve({
       preferBuiltins: false,
       browser: true

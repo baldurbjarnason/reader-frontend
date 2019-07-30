@@ -7,7 +7,6 @@ const easyImport = require('postcss-easy-import')
 const calc = require('postcss-calc')
 const fs = require('fs')
 const crypto = require('crypto')
-const buildHtml = require('./build-html.js')
 
 fs.readFile('app/index.css', (err, css) => {
   if (err) {
@@ -50,7 +49,5 @@ fs.readFile('app/index.css', (err, css) => {
           console.log(`static/styles/app.${hash}.css.map`)
         )
       }
-    }).then(() => {
-      buildHtml()
     })
 })

@@ -2,7 +2,7 @@ const glob = require('glob')
 const fs = require('fs')
 const crypto = require('crypto')
 
-module.exports = function build () {
+const build = module.exports = function build () {
   const components = glob.sync('*.component.*.js', {cwd: 'js/components/'})
 
   const componentsContents = `
@@ -49,3 +49,4 @@ module.exports = function build () {
   </html>
   `)
 }
+build()

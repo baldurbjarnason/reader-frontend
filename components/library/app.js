@@ -1,7 +1,7 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
 import { useRoutes } from '../hooks/useRoutes.js'
-import { ApiContext } from '../api-provider.component.js'
+import { ApiContext } from '../api-provider.js'
 import '../widgets/button.js'
 import '../widgets/text-button.js'
 import 'inert-polyfill/inert-polyfill.js'

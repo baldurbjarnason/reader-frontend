@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
-import { ApiContext } from '../api-provider.component.js'
+import { ApiContext } from '../api-provider.js'
 import { createAPI } from '../api.state.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import '../widgets/button.js'

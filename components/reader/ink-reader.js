@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
-import { ApiContext } from '../api-provider.component.js'
+import { ApiContext } from '../api-provider.js'
 import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
 import { HighlightButton, RemoveHighlightButton } from './highlight.js'
 import quicklink from 'quicklink/dist/quicklink.mjs'

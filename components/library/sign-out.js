@@ -1,7 +1,7 @@
 import { createModal } from '../utils/create-modal.js'
 import { html } from 'lit-html'
 import { modalHeader } from '../widgets/modalHeader.js'
-import { api } from '../api-provider.component.js'
+import { api } from '../api-provider.js'
 const renderer = () => {
   return html`
   ${modalHeader({ title: 'Sign Out' })}

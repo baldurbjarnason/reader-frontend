@@ -2,7 +2,7 @@ import { createModal, closer } from '../utils/create-modal.js'
 import { html } from 'lit-html'
 import { modalHeader } from '../widgets/modalHeader.js'
 import { navigate } from '../hooks/useRoutes.js'
-import { api } from '../api-provider.component.js'
+import { api } from '../api-provider.js'
 
 const renderer = ({ tag }) => {
   return html`

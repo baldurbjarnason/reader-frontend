@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
-import { ApiContext } from '../api-provider.component.js'
+import { ApiContext } from '../api-provider.js'
 import { iconButton } from '../widgets/icon-button.js'
 import { opener } from '../utils/create-modal.js'
 

@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { useState, useEffect, component } from 'haunted'
-import { api } from '../api-provider.component.js'
+import { api } from '../api-provider.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import '../../js/vendor/file-drop-element.js'
 import '../widgets/button.js'

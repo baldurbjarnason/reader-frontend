@@ -1,7 +1,7 @@
 import * as textQuote from './selectors/dom-anchor-text-quote.js'
 import { html } from 'lit-html'
 import { virtual } from 'haunted'
-import { api } from '../api-provider.component.js'
+import { api } from '../api-provider.js'
 
 export const HighlightButton = virtual(
   ({ selectionRange, root }, document, bookId) => {

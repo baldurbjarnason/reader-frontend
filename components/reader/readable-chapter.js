@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
-import { api } from '../api-provider.component.js'
+import { api } from '../api-provider.js'
 import { getRange } from 'shadow-selection-polyfill'
 import { highlightNotes } from './highlight.js'
 

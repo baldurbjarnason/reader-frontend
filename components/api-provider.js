@@ -5,4 +5,8 @@ export const api = createAPI()
 
 export const ApiContext = createContext(api)
 
-window.customElements.define('api-provider', ApiContext.Provider)
+try {
+  window.customElements.define('api-provider', ApiContext.Provider)
+} catch (err) {
+  console.log(err)
+}
