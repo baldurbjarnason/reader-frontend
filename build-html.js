@@ -13,7 +13,7 @@ const build = module.exports = function build () {
     .createHash('md5')
     .update(componentsContents)
     .digest('hex')
-    .substr(0, 8)
+    .substr(0, 16)
 
   fs.writeFileSync(`js/components/index.${hash}.js`, componentsContents)
 

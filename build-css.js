@@ -8,6 +8,7 @@ const calc = require('postcss-calc')
 const fs = require('fs')
 const crypto = require('crypto')
 
+// This needs to clear old css file
 fs.readFile('app/index.css', (err, css) => {
   if (err) {
     throw err
@@ -40,7 +41,7 @@ fs.readFile('app/index.css', (err, css) => {
         .createHash('md5')
         .update(css)
         .digest('hex')
-        .substr(0, 8)
+        .substr(0, 16)
       fs.writeFile(`static/styles/app.${hash}.css`, result.css, () =>
         console.log(`static/styles/app.${hash}.css`)
       )
