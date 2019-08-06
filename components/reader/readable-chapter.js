@@ -8,8 +8,9 @@ export const title = 'readable Chapter display: `<readable-chapter>`'
 export const description = `This renders the chapter HTML with only readable CSS.`
 
 // http://localhost:8080/demo/?component=/components/reader/readable-chapter.js
-export const preview = () => {
-  return html`<readable-chapter chapter="/demo/chapter/demo.html"></readable-chapter>`
+export const preview = path => {
+  return html`<readable-chapter chapter=${path ||
+    '/demo/chapter/demo.html'}></readable-chapter>`
 }
 
 export const readableChapter = el => {

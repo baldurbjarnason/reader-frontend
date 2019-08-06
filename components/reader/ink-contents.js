@@ -7,8 +7,8 @@ export const title = 'Ink Contents display: `<ink-contents>`'
 export const description = `This renders the book's content HTML`
 
 // http://localhost:8080/demo/?component=/components/reader/ink-contents.js
-export const preview = () => {
-  return html`<ink-contents .book=${{
+export const preview = (
+  book = {
     name: 'Book Title',
     id: '/demo',
     attributedTo: [{ name: 'Fancy Author' }],
@@ -16,7 +16,9 @@ export const preview = () => {
       { rel: ['cover'], url: 'static/placeholder-cover.png' },
       { rel: ['contents'], url: 'contents.html' }
     ]
-  }} current="chap_00012.xhtml"></ink-contents>`
+  }
+) => {
+  return html`<ink-contents .book=${book} current="chap_00012.xhtml"></ink-contents>`
 }
 
 export const InkChapter = el => {

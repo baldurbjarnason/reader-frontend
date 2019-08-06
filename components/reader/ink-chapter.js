@@ -9,8 +9,9 @@ export const title = 'Ink Chapter display: `<ink-chapter>`'
 export const description = `This renders the chapter HTML with processed CSS.`
 
 // http://localhost:8080/demo/?component=/components/reader/ink-chapter.js
-export const preview = () => {
-  return html`<ink-chapter chapter="/demo/chapter/demo.html"></ink-chapter>`
+export const preview = path => {
+  return html`<ink-chapter chapter=${path ||
+    '/base/demo/chapter/demo.html'}></ink-chapter>`
 }
 
 export const InkChapter = el => {

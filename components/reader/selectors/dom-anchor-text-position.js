@@ -1,6 +1,6 @@
 import seek from './dom-seek.js'
 
-import rangeToString from './range-to-string'
+import rangeToString from './range-to-string.js'
 
 const SHOW_TEXT = 4
 

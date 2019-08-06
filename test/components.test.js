@@ -1,7 +1,7 @@
 /* global it, describe */
 import { html, fixture, expect, nextFrame } from '@open-wc/testing'
 
-import { preview } from '../components/reader/ink-chapter.js'
+import { preview as previewChapter } from '../components/reader/readable-chapter.js'
 import { preview as previewBookList } from '../components/library/book-list.js'
 import { preview as previewCollection } from '../components/library/collection.js'
 import { preview as previewUploader } from '../components/library/uploader.js'
@@ -11,12 +11,12 @@ import { preview as previewContents } from '../components/reader/ink-contents.js
 import { names } from '../components/widgets/icon-button.js'
 import { preview as previewConfirm } from '../components/modals/confirm-action.js'
 
-describe('<ink-chapter>', () => {
-  it('ink-chapter basic render', async () => {
-    const el = await fixture(preview())
+describe('<readable-chapter>', () => {
+  it('readable-chapter basic render', async () => {
+    const el = await fixture(previewChapter('/base/demo/chapter/demo.html'))
     await el.updateComplete
+    await nextFrame()
     expect(el).dom.to.equalSnapshot()
-    expect(el).shadowDom.to.equalSnapshot()
   })
 })
 
@@ -55,7 +55,17 @@ describe('<ink-dropdown>', () => {
 })
 describe('<ink-contents>', () => {
   it('ink-contents basic render', async () => {
-    const el = await fixture(previewContents())
+    const el = await fixture(
+      previewContents({
+        name: 'Book Title',
+        id: '/demo',
+        attributedTo: [{ name: 'Fancy Author' }],
+        resources: [
+          { rel: ['cover'], url: '/base/demo/static/placeholder-cover.png' },
+          { rel: ['contents'], url: '/base/demo/contents.html' }
+        ]
+      })
+    )
     await el.updateComplete
     await nextFrame()
     expect(el).dom.to.equalSnapshot()

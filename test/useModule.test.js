@@ -4,7 +4,7 @@ import { passes } from './test-files/use-module-element.js'
 
 describe('useModule', () => {
   it('Renders fallback first then re-renders', async () => {
-    const path = '/test/test-files/test-module.js'
+    const path = '/base/test/test-files/test-module.js'
     const el = await fixture(
       html`<use-module-element .path=${path}></use-module-element>`
     )
@@ -18,7 +18,7 @@ describe('useModule', () => {
   })
   it('Renders immediately with module if available', async () => {
     const el = await fixture(
-      html`<use-module-element .path=${'/test/test-files/test-module.js'}></use-module-element>`
+      html`<use-module-element .path=${'/base/test/test-files/test-module.js'}></use-module-element>`
     )
     expect(el).dom.to.equal(
       '<use-module-element><p>This is a test module</p></use-module-element>'
@@ -28,7 +28,7 @@ describe('useModule', () => {
 
 describe.skip('useLazyModule', () => {
   it('Renders fallback first then re-renders', async () => {
-    const path = '/test/test-files/test-lazy-module.js'
+    const path = '/base/test/test-files/test-lazy-module.js'
     const el = await fixture(
       html`<use-lazy-module .path=${path}></use-lazy-module>`
     )
@@ -42,7 +42,7 @@ describe.skip('useLazyModule', () => {
     )
   })
   it('Renders immediately with module if available', async () => {
-    const path = '/test/test-files/test-lazy-module.js'
+    const path = '/base/test/test-files/test-lazy-module.js'
     const el = await fixture(
       html`<use-lazy-module .path=${path}></use-lazy-module>`
     )

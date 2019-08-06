@@ -4,7 +4,12 @@ import { createPDF } from './pdf/index.js'
 /* istanbul ignore next */
 async function zipModule () {
   if (window.JSZip) return window.JSZip
-  return import(window.ZIPJSPATH || '/js/vendor/zip.js')
+  return import(window.ZIPJSPATH || '/js/vendor/jszip/dist/jszip.js').then(
+    module => {
+      window.JSZip = module.default
+      return module.default
+    }
+  )
 }
 
 /* istanbul ignore next */

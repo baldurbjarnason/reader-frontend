@@ -3,10 +3,9 @@ import { expect } from '@open-wc/testing'
 import { createAPI } from '../components/api.state.js'
 import { parseOPF } from '../components/formats/epub/parseOPF.js'
 import * as files from './test-files/epub-test-files.js'
-import '../js/vendor/zip.js'
-
-window.ZIPJSPATH = '../../js/vendor/zip.js'
-window.PDFJSPATH = '../../js/pdfjs-dist/build/pdf.min.js'
+import JSZip from '../js/vendor/jszip/dist/jszip.js'
+window.JSZip = JSZip
+window.ZIPJSPATH = '../../js/vendor/jszip/dist/jszip.js'
 
 describe('api.formats.epub', () => {
   before(() => {
