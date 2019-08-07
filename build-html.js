@@ -2,6 +2,8 @@ const glob = require('glob')
 const fs = require('fs')
 const crypto = require('crypto')
 
+const production = process.env.NODE_ENV === 'production'
+
 const build = module.exports = function build () {
   const components = glob.sync('*.component.*.js', {cwd: 'js/components/'})
 
@@ -15,9 +17,10 @@ const build = module.exports = function build () {
     .digest('hex')
     .substr(0, 16)
 
-  fs.writeFileSync(`js/components/index.${hash}.js`, componentsContents)
+  const filename = production ? `js/components/index.${hash}.js` : `js/components/index.dev.js`
+  fs.writeFileSync(filename, componentsContents)
 
-  const css = glob.sync('static/styles/app.*.css')[0]
+  const css = production ? glob.sync('static/styles/app.*.css')[0] : 'static/styles/app.dev.css'
 
   fs.writeFileSync('html/index.html', `
   <!DOCTYPE html>
@@ -28,11 +31,11 @@ const build = module.exports = function build () {
   <script src="/js/vendor/document-register-element.js" nomodule></script>
   <script>
     try {
-      import('/js/components/index.${hash}.js')
+      import('/${filename}')
     } catch (e) {
       var s = document.createElement('script')
       s.src = '/js/shimport.js'
-      s.dataset.main = '/js/components/index.${hash}.js'
+      s.dataset.main = '/${filename}'
       document.head.appendChild(s)
     }
     document.documentElement.classList.remove('no-js')

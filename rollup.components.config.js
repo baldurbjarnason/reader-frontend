@@ -9,13 +9,15 @@ import clear from 'rollup-plugin-clear'
 import svelte from 'rollup-plugin-svelte'
 const input = glob.sync('components/**/*.{component,hook}.js')
 
+const production = process.env.NODE_ENV === 'production'
+
 export default {
   input,
   output: [{
     dir: 'js/components',
     format: 'es',
     sourcemap: true,
-    entryFileNames: '[name].[hash].js'
+    entryFileNames: production ? '[name].[hash].js' : '[name].dev.js'
   }],
   plugins: [
     clear({targets: ['js/components']}),
@@ -39,6 +41,6 @@ export default {
     string({
       // Required to be specified
       include: '**/*.{txt,css}' }),
-    terser()
+    production && terser()
   ]
 }

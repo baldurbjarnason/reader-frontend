@@ -8,6 +8,8 @@ const calc = require('postcss-calc')
 const fs = require('fs')
 const crypto = require('crypto')
 
+const production = process.env.NODE_ENV === 'production'
+
 // This needs to clear old css file
 fs.readFile('app/index.css', (err, css) => {
   if (err) {
@@ -42,12 +44,13 @@ fs.readFile('app/index.css', (err, css) => {
         .update(css)
         .digest('hex')
         .substr(0, 16)
-      fs.writeFile(`static/styles/app.${hash}.css`, result.css, () =>
-        console.log(`static/styles/app.${hash}.css`)
+      const filename = production ? `static/styles/app.${hash}.css` : `static/styles/app.dev.css`
+      fs.writeFile(filename, result.css, () =>
+        console.log(filename)
       )
       if (result.map) {
-        fs.writeFile(`static/styles/app.${hash}.css.map`, result.map, () =>
-          console.log(`static/styles/app.${hash}.css.map`)
+        fs.writeFile(`${filename}.map`, result.map, () =>
+          console.log(`${filename}.map`)
         )
       }
     })
