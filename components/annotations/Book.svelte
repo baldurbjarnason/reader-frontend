@@ -28,8 +28,9 @@
   .AnnotationBook-cover {
     grid-column: 1 / 2;
     width: auto;
-    border-radius: var(--border-radius);
     width: 300px;
+    height: 300px;
+    object-fit: contain;
   }
   .AnnotationBook-group {
     grid-column: 2 / 3;
