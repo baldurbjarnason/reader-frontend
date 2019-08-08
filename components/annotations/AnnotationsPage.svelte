@@ -14,7 +14,8 @@
     book = await api.book.get(bookId)
     for (const chapter of book.readingOrder) {
       const {url} = chapter
-      const notesUrl = new URL(url, book.id).href
+      const bookURL = new URL(book.id, window.location)
+      const notesUrl = new URL(url, bookURL).href
       let notes = await api.book.notes(notesUrl)
       annotations = annotations.concat(notes)
     }
