@@ -7,8 +7,6 @@ import glob from 'glob'
 import json from 'rollup-plugin-json'
 import clear from 'rollup-plugin-clear'
 import svelte from 'rollup-plugin-svelte'
-import serve from 'rollup-plugin-serve'
-import livereload from 'rollup-plugin-livereload'
 const input = glob.sync('components/**/*.{component,hook}.{js,svelte}')
 console.log(input)
 const production = process.env.NODE_ENV === 'production'
@@ -22,8 +20,6 @@ export default {
     entryFileNames: production ? '[name].[hash].js' : '[name].dev.js'
   }],
   plugins: [
-    !production && serve(),
-    !production && livereload('static/styles'),
     clear({targets: ['js/components']}),
     resolve({
       preferBuiltins: false,
