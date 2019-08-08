@@ -8,7 +8,6 @@ import json from 'rollup-plugin-json'
 import clear from 'rollup-plugin-clear'
 import svelte from 'rollup-plugin-svelte'
 const input = glob.sync('components/**/*.{component,hook}.{js,svelte}')
-console.log(input)
 const production = process.env.NODE_ENV === 'production'
 
 export default {
@@ -31,11 +30,6 @@ export default {
       emitCss: true,
       dev: !production,
       css: function (css) {
-        console.log(css.code) // the concatenated CSS
-        console.log(css.map) // a sourcemap
-
-        // creates `main.css` and `main.css.map` — pass `false`
-        // as the second argument if you don't want the sourcemap
         css.write('static/styles/svelte.css')
       }
     }),

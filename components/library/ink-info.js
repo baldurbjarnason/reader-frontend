@@ -130,6 +130,13 @@ export const Info = el => {
       </ol>
       <ol>
         <li>
+          <a
+            href="${`/annotations/${req.params.bookId}`}"
+            class="actions-button"
+            >Annotations &amp; Notes</a
+          >
+        </li>
+        <li>
           <details class="actions-button actions-button--secondary"
             ><summary>Collections</summary>
             <ol>

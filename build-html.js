@@ -27,6 +27,7 @@ const build = module.exports = function build () {
   <html class="no-js">
   <head>
   <link media="all" rel="stylesheet" href="/${css}">
+  <link media="all" rel="stylesheet" href="/static/styles/svelte.css">
   <title>Rebus Ink</title>
   <script src="/js/vendor/document-register-element.js" nomodule></script>
   <script>

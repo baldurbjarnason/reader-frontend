@@ -5,7 +5,22 @@ import { ApiContext } from '../api-provider.component.js'
 import '../widgets/button.js'
 import '../widgets/text-button.js'
 import 'inert-polyfill/inert-polyfill.js'
+import SvelteApp from '../App.svelte'
 
+const annotations = {
+  path: '/annotations/:bookId',
+  render (req, route) {
+    const div = document.createElement('div')
+    const component = new SvelteApp({
+      target: div,
+      props: { req, route, component: 'annotations' }
+    })
+    console.log(div, component)
+    return html`
+      ${div}
+    `
+  }
+}
 const library = {
   path: '/library/:collection*',
   render (req, route) {
@@ -39,7 +54,7 @@ const fallback = {
   prop: 'prop3'
 }
 
-const routes = [library, reader, info, fallback]
+const routes = [library, reader, info, annotations, fallback]
 export const App = el => {
   const [route, req] = useRoutes(routes)
   const [profile, setProfile] = useState({ type: 'loading' })

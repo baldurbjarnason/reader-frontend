@@ -21,16 +21,15 @@
     display: block;
     margin: 0;
     display: grid;
-    grid-template-columns: min-content 1fr;
+    grid-template-columns: 300px 1fr;
     padding: 1rem;
     grid-gap: 1rem;
   }
   .AnnotationBook-cover {
-    max-width: 350px;
     grid-column: 1 / 2;
-    max-height: 300px;
     width: auto;
     border-radius: var(--border-radius);
+    width: 300px;
   }
   .AnnotationBook-group {
     grid-column: 2 / 3;

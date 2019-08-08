@@ -5,19 +5,20 @@
   import Book from './Book.svelte'
   import AnnotationsChapter from './AnnotationsChapter.svelte'
   import AnnotationsToolbar from './AnnotationsToolbar.svelte'
+  import { fade } from 'svelte/transition'
   export let bookId
-  export let annotations = []
+  let annotations = []
   let api = getContext('ink-api')
   let book
   onMount(async () => {
     book = await api.book.get(bookId)
     for (const chapter of book.readingOrder) {
       const {url} = chapter
-      let notes = await api.book.notes(url)
+      const notesUrl = new URL(url, book.id).href
+      let notes = await api.book.notes(notesUrl)
       annotations = annotations.concat(notes)
     }
   })
-  console.log(annotations)
 </script>
 
 <style>
@@ -29,10 +30,12 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-<AnnotationsToolbar return="#" title="Annotations &amp; Notes" />
-<div class="AnnotationsPage">
+<AnnotationsToolbar returnPath={'/info' + bookId} title="Annotations &amp; Notes" />
+{#if book && annotations.length !== 0}
+<div class="AnnotationsPage" transition:fade>
   <Book book={book}/>
   {#each annotations as annotation, i}
     <AnnotationsChapter annotations={annotation} index={i} />
   {/each}
 </div>
+{/if}
