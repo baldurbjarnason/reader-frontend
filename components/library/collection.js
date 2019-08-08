@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
-import { ApiContext } from '../api-provider.js'
+import { ApiContext } from '../api-provider.component.js'
 import { createAPI } from '../api.state.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import '../widgets/button.js'
@@ -92,10 +92,11 @@ export const preview = () => {
       )
     })
   }
-  return html`<api-provider .value=${api}>
-    <ink-collection></ink-collection>
-  </api-provider>
-`
+  return html`
+    <api-provider .value=${api}>
+      <ink-collection></ink-collection>
+    </api-provider>
+  `
 }
 
 function setLibrary ({
@@ -147,62 +148,86 @@ export const InkCollection = ({ collection }) => {
   if (library.tags) {
     tag = library.tags.filter(tag => tag.name === collection)[0]
   }
-  useEffect(
-    () => {
-      setLibrary({
-        collection,
-        viewConfig,
-        setViewConfig,
-        library,
-        setState,
-        api
-      })
-    },
-    [collection]
-  )
+  useEffect(() => {
+    setLibrary({
+      collection,
+      viewConfig,
+      setViewConfig,
+      library,
+      setState,
+      api
+    })
+  }, [collection])
   return html`
-  <div class=${classMap({
-    'header-row': true
-  })}><span class="label">${library.items.length ||
-    ''} Items</span> <span>${iconButton({
-  click: event => {
-    opener(
-      'ink-collection',
-      { viewConfig, setViewConfig, library, setState, api, tag },
-      null,
-      event.target
-    )
-  },
-  name: 'settings',
-  label: 'Settings'
-})}</span>
-</div><div class=${classMap({
-    items: true,
-    loading: library.state === 'loading',
-    loaded: library.state === 'loaded',
-    changing: library.state === 'changing',
-    changed: library.state === 'changing',
-    complete:
-      library.totalItems === null || library.totalItems === library.items.length
-  })}>${loader(library.state)}<book-list @animationend=${event =>
-  removeAnimationClasses(event)} .books=${library.items}></book-list>
-<ink-button secondary class="loader" ?working=${button.loading} ?disabled=${
-  button.loading
-} .click=${async event => {
-  setButton({ loading: true })
-  try {
-    const libraryAdditions = await api.library(
-      Object.assign({}, viewConfig.params, { page: library.page + 1 })
-    )
-    const newLibrary = Object.assign({}, library, libraryAdditions)
-    newLibrary.items = library.items.concat(libraryAdditions.items)
-    setState(newLibrary)
-  } catch (err) {
-    console.error(err)
-  }
-  setButton({ loading: false })
-}} name="Show More...">Show More...</ink-button>
-</div>`
+    <div
+      class=${
+        classMap({
+          'header-row': true
+        })
+      }
+    >
+      <span class="label">${library.items.length || ''} Items</span>
+      <span
+        >${
+          iconButton({
+            click: event => {
+              opener(
+                'ink-collection',
+                { viewConfig, setViewConfig, library, setState, api, tag },
+                null,
+                event.target
+              )
+            },
+            name: 'settings',
+            label: 'Settings'
+          })
+        }</span
+      >
+    </div>
+    <div
+      class=${
+        classMap({
+          items: true,
+          loading: library.state === 'loading',
+          loaded: library.state === 'loaded',
+          changing: library.state === 'changing',
+          changed: library.state === 'changing',
+          complete:
+            library.totalItems === null ||
+            library.totalItems === library.items.length
+        })
+      }
+    >
+      ${loader(library.state)}<book-list
+        @animationend=${event => removeAnimationClasses(event)}
+        .books=${library.items}
+      ></book-list>
+      <ink-button
+        secondary
+        class="loader"
+        ?working=${button.loading}
+        ?disabled=${button.loading}
+        .click=${
+          async event => {
+            setButton({ loading: true })
+            try {
+              const libraryAdditions = await api.library(
+                Object.assign({}, viewConfig.params, { page: library.page + 1 })
+              )
+              const newLibrary = Object.assign({}, library, libraryAdditions)
+              newLibrary.items = library.items.concat(libraryAdditions.items)
+              setState(newLibrary)
+            } catch (err) {
+              console.error(err)
+            }
+            setButton({ loading: false })
+          }
+        }
+        name="Show More..."
+        >Show More...</ink-button
+      >
+    </div>
+  `
 }
 
 function removeAnimationClasses (event) {
@@ -218,7 +243,29 @@ function removeAnimationClasses (event) {
 
 function loader (state) {
   if (state === 'loading') {
-    return html`<svg class="loading-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>`
+    return html`
+      <svg
+        class="loading-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="square"
+        stroke-linejoin="round"
+      >
+        <line x1="12" y1="2" x2="12" y2="6"></line>
+        <line x1="12" y1="18" x2="12" y2="22"></line>
+        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+        <line x1="2" y1="12" x2="6" y2="12"></line>
+        <line x1="18" y1="12" x2="22" y2="12"></line>
+        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+      </svg>
+    `
   }
 }
 InkCollection.observedAttributes = ['collection']

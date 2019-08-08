@@ -1,7 +1,7 @@
 import { html } from 'lit-html'
 import { component, useEffect, useContext, useState } from 'haunted'
 import { classMap } from 'lit-html/directives/class-map.js'
-import { ApiContext } from '../api-provider.js'
+import { ApiContext } from '../api-provider.component'
 import { createAPI } from '../api.state.js'
 import './book-list.js'
 
@@ -67,7 +67,9 @@ export const preview = () => {
   api.library = params => {
     return Promise.resolve({ items: books })
   }
-  return html`<api-provider .value=${api}><recent-books></recent-books></api-provider>`
+  return html`
+    <api-provider .value=${api}><recent-books></recent-books></api-provider>
+  `
 }
 
 export const RecentBooks = component(
@@ -87,13 +89,23 @@ export const RecentBooks = component(
       })
     }, [])
     const url = `/library/${tag}`
-    return html`<div class=${classMap({
-      'header-row': true
-    })}><p class="label">Recently uploaded ${
-      tag === 'all' ? '' : `in ${tag}`
-    }</p> <p class="link">
-    <a href=${url} class="Button">See all items &gt;</a>
-  </p></div><book-list .books=${books}></book-list>`
+    return html`
+      <div
+        class=${
+          classMap({
+            'header-row': true
+          })
+        }
+      >
+        <p class="label">
+          Recently uploaded ${tag === 'all' ? '' : `in ${tag}`}
+        </p>
+        <p class="link">
+          <a href=${url} class="Button">See all items &gt;</a>
+        </p>
+      </div>
+      <book-list .books=${books}></book-list>
+    `
   },
   window.HTMLElement,
   { useShadowDOM: false }

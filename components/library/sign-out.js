@@ -1,13 +1,17 @@
 import { createModal } from '../utils/create-modal.js'
 import { html } from 'lit-html'
 import { modalHeader } from '../widgets/modalHeader.js'
-import { api } from '../api-provider.js'
+import { api } from '../api-provider.component'
 const renderer = () => {
   return html`
-  ${modalHeader({ title: 'Sign Out' })}
-  <confirm-action .action=${() =>
-    api.logout()} name="Sign Out" dangerous .view=${() =>
-  'Are you sure that you want to sign out?'}></confirm-action>`
+    ${modalHeader({ title: 'Sign Out' })}
+    <confirm-action
+      .action=${() => api.logout()}
+      name="Sign Out"
+      dangerous
+      .view=${() => 'Are you sure that you want to sign out?'}
+    ></confirm-action>
+  `
 }
 
 createModal('sign-out', renderer)

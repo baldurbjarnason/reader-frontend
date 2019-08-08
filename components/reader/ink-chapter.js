@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useContext, useState, useEffect } from 'haunted'
-import { ApiContext } from '../api-provider.js'
+import { ApiContext } from '../api-provider.component.js'
 import { getRange } from 'shadow-selection-polyfill'
 import { highlightNotes } from './highlight.js'
 
@@ -10,27 +10,29 @@ export const description = `This renders the chapter HTML with processed CSS.`
 
 // http://localhost:8080/demo/?component=/components/reader/ink-chapter.js
 export const preview = path => {
-  return html`<ink-chapter chapter=${path ||
-    '/base/demo/chapter/demo.html'}></ink-chapter>`
+  return html`
+    <ink-chapter
+      chapter=${path || '/base/demo/chapter/demo.html'}
+    ></ink-chapter>
+  `
 }
 
 export const InkChapter = el => {
   const { location, chapter, readable, setSelection, setHighlight, book } = el
   const api = useContext(ApiContext)
   const [resource, setChapter] = useState(
-    html`<div class="loading">Loading</div>`
+    html`
+      <div class="loading">Loading</div>
+    `
   )
-  useEffect(
-    () => {
-      const element = el.shadowRoot.getElementById(location)
-      if (location && resource && element) {
-        window.requestAnimationFrame(() => {
-          element.scrollIntoView({ behaviour: 'smooth' })
-        })
-      }
-    },
-    [location, resource]
-  )
+  useEffect(() => {
+    const element = el.shadowRoot.getElementById(location)
+    if (location && resource && element) {
+      window.requestAnimationFrame(() => {
+        element.scrollIntoView({ behaviour: 'smooth' })
+      })
+    }
+  }, [location, resource])
   useEffect(() => {
     function handleSelection (event) {
       const range = getRange(el.shadowRoot)
@@ -57,229 +59,231 @@ export const InkChapter = el => {
       window.removeEventListener('reader:highlight-deselected', handleHighlight)
     }
   }, [])
-  useEffect(
-    () => {
-      if (chapter) {
-        el.classList.add('is-loading')
-        Promise.resolve()
-          .then(() => {
-            if (resource.nextDom) {
-              return Promise.resolve(resource.nextDom)
-            } else {
-              return api.book.chapter(chapter, readable, book)
-            }
-          })
-          .then(dom => {
-            el.classList.remove('is-loading')
-            window.scrollTo(0, 0)
-            setChapter(dom)
-            return dom
-          })
-          .then(dom => {
-            const { next } = dom
-            if (next) {
-              return api.book.chapter(next, readable, book).then(nextDom => {
-                dom.nextDom = nextDom
-                setChapter(dom)
-              })
-            }
-          })
-          .catch(err => console.error(err))
-      }
-    },
-    [chapter, readable, book]
-  )
-  useEffect(
-    () => {
-      const { lang, notes } = resource
-      if (lang) {
-        el.setAttribute('lang', lang)
-      }
-      if (resource) {
-        followLocations(el)
-      }
-      if (notes && resource) {
-        window.requestAnimationFrame(() => highlightNotes(el.shadowRoot, notes))
-      }
-    },
-    [resource]
-  )
+  useEffect(() => {
+    if (chapter) {
+      el.classList.add('is-loading')
+      Promise.resolve()
+        .then(() => {
+          if (resource.nextDom) {
+            return Promise.resolve(resource.nextDom)
+          } else {
+            return api.book.chapter(chapter, readable, book)
+          }
+        })
+        .then(dom => {
+          el.classList.remove('is-loading')
+          window.scrollTo(0, 0)
+          setChapter(dom)
+          return dom
+        })
+        .then(dom => {
+          const { next } = dom
+          if (next) {
+            return api.book.chapter(next, readable, book).then(nextDom => {
+              dom.nextDom = nextDom
+              setChapter(dom)
+            })
+          }
+        })
+        .catch(err => console.error(err))
+    }
+  }, [chapter, readable, book])
+  useEffect(() => {
+    const { lang, notes } = resource
+    if (lang) {
+      el.setAttribute('lang', lang)
+    }
+    if (resource) {
+      followLocations(el)
+    }
+    if (notes && resource) {
+      window.requestAnimationFrame(() => highlightNotes(el.shadowRoot, notes))
+    }
+  }, [resource])
   return html`
     <style>
-:host {
-  all: initial;
-  position: relative;
-  line-height: var(--reader-line-height);
-  font-size: var(--reader-font-size);
-  color: var(--reader-text-color);
-  font-family: 'Source Serif Pro', serif;
-  background-color: var(--reader-background-color);
-  line-height: var(--reader-line-height);
-  display: block;
-  contain: content;
-  padding: 0;
-  display: grid;
-  grid-template-columns: minmax(var(--reader-left-margin), 0.5fr) minmax(var(--reader-min-column-width), var(--reader-max-column-width)) minmax(var(--reader-left-margin), 0.5fr);
-  grid-template-areas: 'leftmargin maintext rightmargin';
-}
-:host(.is-loading) {
-  opacity: 0.5;
-}
-.Highlight {
-  background-color: #ffff98;
-}
+      :host {
+        all: initial;
+        position: relative;
+        line-height: var(--reader-line-height);
+        font-size: var(--reader-font-size);
+        color: var(--reader-text-color);
+        font-family: 'Source Serif Pro', serif;
+        background-color: var(--reader-background-color);
+        line-height: var(--reader-line-height);
+        display: block;
+        contain: content;
+        padding: 0;
+        display: grid;
+        grid-template-columns: minmax(var(--reader-left-margin), 0.5fr) minmax(
+            var(--reader-min-column-width),
+            var(--reader-max-column-width)
+          ) minmax(var(--reader-left-margin), 0.5fr);
+        grid-template-areas: 'leftmargin maintext rightmargin';
+      }
+      :host(.is-loading) {
+        opacity: 0.5;
+      }
+      .Highlight {
+        background-color: #ffff98;
+      }
 
-.Highlight--selected {
-  background-color: #ddddd0;
-}
-.Highlight--commented {
-  outline: #f0f000 0.125rem solid;
-}
+      .Highlight--selected {
+        background-color: #ddddd0;
+      }
+      .Highlight--commented {
+        outline: #f0f000 0.125rem solid;
+      }
 
-.chapter-body {
-  grid-area: maintext;
-  min-width: var(--reader-min-column-width);
-  max-width: var(--reader-max-column-width);
-  margin: 0;
-}
-[hidden],
-template {
-  display: none !important;
-}
-head {
-  display: none;
-}blockquote {
-  margin-left: 2.5em;
-}
+      .chapter-body {
+        grid-area: maintext;
+        min-width: var(--reader-min-column-width);
+        max-width: var(--reader-max-column-width);
+        margin: 0;
+      }
+      [hidden],
+      template {
+        display: none !important;
+      }
+      head {
+        display: none;
+      }
+      blockquote {
+        margin-left: 2.5em;
+      }
 
-blockquote,
-blockquote p {
-  font-size: 0.75rem;
-  font-size: calc(var(--reader-font-size) * 0.85);
-  line-height: 1.2;
-}
+      blockquote,
+      blockquote p {
+        font-size: 0.75rem;
+        font-size: calc(var(--reader-font-size) * 0.85);
+        line-height: 1.2;
+      }
 
-blockquote * + * {
-  margin-top: calc(var(--reader-paragraph-spacing) * 0.85);
-}
-blockquote * {
-  margin-bottom: 0;
-}
-blockquote :first-child {
-  margin: 0;
-}h1 {
-  font-size: 2em;
-  font-size: calc(var(--reader-font-size) * 3);
-  font-weight: 600;
-  margin: 0;
-}
+      blockquote * + * {
+        margin-top: calc(var(--reader-paragraph-spacing) * 0.85);
+      }
+      blockquote * {
+        margin-bottom: 0;
+      }
+      blockquote :first-child {
+        margin: 0;
+      }
+      h1 {
+        font-size: 2em;
+        font-size: calc(var(--reader-font-size) * 3);
+        font-weight: 600;
+        margin: 0;
+      }
 
-h2 {
-  font-weight: 600;
-  font-size: calc(var(--reader-font-size) * 2);
-  margin: 0;
-}
-h3 {
-  font-weight: 400;
-  font-style: italic;
-  font-size: calc(var(--reader-font-size) * 1.5);
-  margin: 0;
-}
-h4 {
-  font-weight: normal;
-  font-size: calc(var(--reader-font-size) * 1.25);
-  margin: 0;
-}
-h5 {
-  font-weight: normal;
-  font-size: var(--reader-font-size);
-  text-transform: uppercase;
-  margin: 0;
-}
+      h2 {
+        font-weight: 600;
+        font-size: calc(var(--reader-font-size) * 2);
+        margin: 0;
+      }
+      h3 {
+        font-weight: 400;
+        font-style: italic;
+        font-size: calc(var(--reader-font-size) * 1.5);
+        margin: 0;
+      }
+      h4 {
+        font-weight: normal;
+        font-size: calc(var(--reader-font-size) * 1.25);
+        margin: 0;
+      }
+      h5 {
+        font-weight: normal;
+        font-size: var(--reader-font-size);
+        text-transform: uppercase;
+        margin: 0;
+      }
 
-h6 {
-  font-weight: normal;
-  font-size: var(--reader-font-size);
-  margin: 0;
-}
+      h6 {
+        font-weight: normal;
+        font-size: var(--reader-font-size);
+        margin: 0;
+      }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-bottom: var(--reader-paragraph-spacing);
-}
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin-bottom: var(--reader-paragraph-spacing);
+      }
 
+      p,
+      div,
+      td,
+      figure,
+      figcaption {
+        line-height: var(--reader-line-height);
+        font-size: 0.85rem;
+        font-size: var(--reader-font-size, 0.85rem);
+      }
 
-p, div, td, figure, figcaption {
-  line-height: var(--reader-line-height);
-  font-size: 0.85rem;
-  font-size: var(--reader-font-size, 0.85rem);
-}
+      a[href] {
+        transition: box-shadow 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22),
+          transform 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22);
+        text-decoration: underline;
+      }
+      :link {
+        color: var(--link);
+      }
+      :visited {
+        color: var(--visited);
+      }
+      a:link:hover {
+        color: var(--hover);
+      }
+      a {
+        border-radius: 2rem;
+      }
+      @keyframes outlinePop {
+        0% {
+          box-shadow: 0 0 0 1px rgb(228, 255, 254, 0.2);
+          background-color: rgb(228, 255, 254, 0.2);
+          transform: scale(0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 8px var(--rc-lighter);
+          transform: scale(1.5);
+        }
+        100% {
+          box-shadow: 0 0 0 3px var(--rc-lighter);
+          background-color: var(--rc-lighter);
+          transform: scale(1);
+        }
+      }
+      a:focus {
+        background-color: var(--rc-lighter);
+        box-shadow: 0 0 0 5px var(--rc-lighter);
+        outline: solid transparent;
+        animation: outlinePop 0.25s ease-in-out;
+      }
 
-a[href] {
-  transition: box-shadow 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22),
-    transform 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22);
-  text-decoration: underline;
-}
-:link {
-  color: var(--link);
-}
-:visited {
-  color: var(--visited);
-}
-a:link:hover {
-  color: var(--hover);
-}
-a {
-  border-radius: 2rem;
-}
-@keyframes outlinePop {
-  0% {
-    box-shadow: 0 0 0 1px rgb(228, 255, 254, 0.2);
-    background-color: rgb(228, 255, 254, 0.2);
-    transform: scale(0.5);
-  }
-  50% {
-    box-shadow: 0 0 0 8px var(--rc-lighter);
-    transform: scale(1.5);
-  }
-  100% {
-    box-shadow: 0 0 0 3px var(--rc-lighter);
-    background-color: var(--rc-lighter);
-    transform: scale(1);
-  }
-}
-a:focus {
-  background-color: var(--rc-lighter);
-  box-shadow: 0 0 0 5px var(--rc-lighter);
-  outline: solid transparent;
-  animation: outlinePop 0.25s ease-in-out;
-}
-
-a:link:active {
-  color: var(--active);
-}
-b,
-strong,
-b > *,
-strong > * {
-  font-weight: 600;
-}
-svg,
-img {
-  max-height: 88vh;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-}
-.is-current {
-  background-color: #f9f9f9;
-  box-shadow: 0 0 0 0.25rem #f9f9f9;
-}
-/* .is-current:before {
+      a:link:active {
+        color: var(--active);
+      }
+      b,
+      strong,
+      b > *,
+      strong > * {
+        font-weight: 600;
+      }
+      svg,
+      img {
+        max-height: 88vh;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+      }
+      .is-current {
+        background-color: #f9f9f9;
+        box-shadow: 0 0 0 0.25rem #f9f9f9;
+      }
+      /* .is-current:before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -292,7 +296,7 @@ img {
 } */
     </style>
     <div class="chapter-body">${resource.dom}</div>
-    `
+  `
 }
 InkChapter.observedAttributes = ['chapter', 'location', 'readable']
 

@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect, useContext } from 'haunted'
-import { ApiContext } from '../api-provider.js'
+import { ApiContext } from '../api-provider.component'
 import lifecycle from 'page-lifecycle/dist/lifecycle.mjs'
 import { HighlightButton } from './highlight.js'
 import '../widgets/icon-link.js'
@@ -17,48 +17,42 @@ export const Reader = el => {
     name: '',
     readingOrder: []
   })
-  useEffect(
-    () => {
-      if (req.params.bookId && book.bookId !== req.params.bookId) {
-        el.updateComplete = api.book
-          .get(`/${req.params.bookId}`)
-          .then(book => {
-            book.bookId = req.params.bookId
-            setBook(book)
-          })
-          .catch(err => console.error(err))
+  useEffect(() => {
+    if (req.params.bookId && book.bookId !== req.params.bookId) {
+      el.updateComplete = api.book
+        .get(`/${req.params.bookId}`)
+        .then(book => {
+          book.bookId = req.params.bookId
+          setBook(book)
+        })
+        .catch(err => console.error(err))
+    }
+  }, [req])
+  useEffect(() => {
+    if (book.json.epubVersion) {
+      el.dataset.format = 'epub'
+    } else if (book.json.pdfInfo) {
+      el.dataset.format = 'pdf'
+    }
+    function handleLifeCycle (event) {
+      const root = document.querySelector(
+        'readable-chapter, ink-chapter, ink-pdf'
+      )
+      const current = root.getAttribute('current')
+      const chapter = root.getAttribute('chapter')
+      if (
+        lifecycle.state === 'passive' &&
+        event.oldState === 'active' &&
+        current
+      ) {
+        api.book.savePosition(book, chapter, current)
       }
-    },
-    [req]
-  )
-  useEffect(
-    () => {
-      if (book.json.epubVersion) {
-        el.dataset.format = 'epub'
-      } else if (book.json.pdfInfo) {
-        el.dataset.format = 'pdf'
-      }
-      function handleLifeCycle (event) {
-        const root = document.querySelector(
-          'readable-chapter, ink-chapter, ink-pdf'
-        )
-        const current = root.getAttribute('current')
-        const chapter = root.getAttribute('chapter')
-        if (
-          lifecycle.state === 'passive' &&
-          event.oldState === 'active' &&
-          current
-        ) {
-          api.book.savePosition(book, chapter, current)
-        }
-      }
-      lifecycle.addEventListener('statechange', handleLifeCycle)
-      return () => {
-        lifecycle.removeEventListener('statechange', handleLifeCycle)
-      }
-    },
-    [book]
-  )
+    }
+    lifecycle.addEventListener('statechange', handleLifeCycle)
+    return () => {
+      lifecycle.removeEventListener('statechange', handleLifeCycle)
+    }
+  }, [book])
   const [selectionRange, setSelection] = useState({})
   const [selectedHighlight, setHighlight] = useState({})
   let chapter, view, location
@@ -70,10 +64,21 @@ export const Reader = el => {
     location = book.navigation.current.location
   }
   if (book.type === 'loading') {
-    view = () => html`<div class="Loading"></div>`
+    view = () =>
+      html`
+        <div class="Loading"></div>
+      `
   } else if (book.json.epubVersion) {
     view = () =>
-      html`<readable-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></readable-chapter>`
+      html`
+        <readable-chapter
+          .setSelection=${setSelection}
+          .setHighlight=${setHighlight}
+          chapter=${chapter}
+          location=${location}
+          .book=${book}
+        ></readable-chapter>
+      `
     // if (document.head.createShadowRoot || document.head.attachShadow) {
     //   view = () =>
     //     html`<ink-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></ink-chapter>`
@@ -82,9 +87,17 @@ export const Reader = el => {
     //     html`<readable-chapter .setSelection=${setSelection} .setHighlight=${setHighlight} chapter=${chapter} location=${location} .book=${book}></readable-chapter>`
     // }
   } else if (book.json.pdfInfo) {
-    view = () => html`<ink-pdf .setSelection=${setSelection} .setHighlight=${setHighlight}  chapter=${chapter} location=${location} .api=${api}>
-    <div><div id="viewer" class="pdfViewer">
-      </div></div></ink-pdf>`
+    view = () => html`
+      <ink-pdf
+        .setSelection=${setSelection}
+        .setHighlight=${setHighlight}
+        chapter=${chapter}
+        location=${location}
+        .api=${api}
+      >
+        <div><div id="viewer" class="pdfViewer"></div></div
+      ></ink-pdf>
+    `
   }
   let navigation
   if (book.id) {
@@ -98,45 +111,67 @@ export const Reader = el => {
     next = `/reader${navigation.next.path}`
   }
   book.navigation = navigation
-  return html`<style>
-  ink-reader {
-    display: block;
-    padding: 0;
-    --reader-left-margin: 32px;
-    min-height: 100vh;
-  }
-  ink-reader ink-chapter {
-    min-height: calc(100vh - 4rem);
-  }
-  ink-reader[data-format="epub"] {
-    background-color: var(--reader-background-color);
-  }
-  upload-section {
-    display: block;
-    padding: 1rem;
-  }
-  </style><reader-head name=${book.name} .returnPath=${`/info/${
-  req.params.bookId
-}/`} .book=${book} .current=${req.params.bookPath}></reader-head>
-  ${view()}
-<nav class="Reader-menu App-menu App-menu--bottom App-menu App-menu--center">
-  <ol class="App-menu-list">
-  <li>${
-  previous
-    ? html`
-    <icon-link name="left-chevron" label="Previous" href=${previous}></icon-link>`
-    : ''
-}</li>
-<li class="App-menu-centre">
-${HighlightButton(selectionRange, chapter, req.params.bookId)}</li>
-    <li>${
-  next
-    ? html`
-    <icon-link name="right-chevron" label="Previous" href=${next}></icon-link>`
-    : ''
-}</li>
-  </ol>
-</nav>`
+  return html`
+    <style>
+      ink-reader {
+        display: block;
+        padding: 0;
+        --reader-left-margin: 32px;
+        min-height: 100vh;
+      }
+      ink-reader ink-chapter {
+        min-height: calc(100vh - 4rem);
+      }
+      ink-reader[data-format='epub'] {
+        background-color: var(--reader-background-color);
+      }
+      upload-section {
+        display: block;
+        padding: 1rem;
+      }</style
+    ><reader-head
+      name=${book.name}
+      .returnPath=${`/info/${req.params.bookId}/`}
+      .book=${book}
+      .current=${req.params.bookPath}
+    ></reader-head>
+    ${view()}
+    <nav
+      class="Reader-menu App-menu App-menu--bottom App-menu App-menu--center"
+    >
+      <ol class="App-menu-list">
+        <li>
+          ${
+            previous
+              ? html`
+                  <icon-link
+                    name="left-chevron"
+                    label="Previous"
+                    href=${previous}
+                  ></icon-link>
+                `
+              : ''
+          }
+        </li>
+        <li class="App-menu-centre">
+          ${HighlightButton(selectionRange, chapter, req.params.bookId)}
+        </li>
+        <li>
+          ${
+            next
+              ? html`
+                  <icon-link
+                    name="right-chevron"
+                    label="Previous"
+                    href=${next}
+                  ></icon-link>
+                `
+              : ''
+          }
+        </li>
+      </ol>
+    </nav>
+  `
 }
 window.customElements.define(
   'ink-reader',

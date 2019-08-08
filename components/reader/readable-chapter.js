@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { component, useState, useEffect } from 'haunted'
-import { api } from '../api-provider.js'
+import { api } from '../api-provider.component.js'
 import { highlightNotes } from './highlight.js'
 
 export const title = 'readable Chapter display: `<readable-chapter>`'
@@ -9,26 +9,28 @@ export const description = `This renders the chapter HTML with only readable CSS
 
 // http://localhost:8080/demo/?component=/components/reader/readable-chapter.js
 export const preview = path => {
-  return html`<readable-chapter chapter=${path ||
-    '/demo/chapter/demo.html'}></readable-chapter>`
+  return html`
+    <readable-chapter
+      chapter=${path || '/demo/chapter/demo.html'}
+    ></readable-chapter>
+  `
 }
 
 export const readableChapter = el => {
   const { location, chapter, setSelection, setHighlight, book } = el
   const [resource, setChapter] = useState(
-    html`<div class="loading">Loading</div>`
+    html`
+      <div class="loading">Loading</div>
+    `
   )
-  useEffect(
-    () => {
-      const element = document.getElementById(location)
-      if (location && resource && element) {
-        window.requestAnimationFrame(() => {
-          element.scrollIntoView({ behaviour: 'smooth' })
-        })
-      }
-    },
-    [location, resource]
-  )
+  useEffect(() => {
+    const element = document.getElementById(location)
+    if (location && resource && element) {
+      window.requestAnimationFrame(() => {
+        element.scrollIntoView({ behaviour: 'smooth' })
+      })
+    }
+  }, [location, resource])
   useEffect(() => {
     function handleSelection () {
       const selection = document.getSelection()
@@ -57,54 +59,50 @@ export const readableChapter = el => {
       window.removeEventListener('reader:highlight-deselected', handleHighlight)
     }
   }, [])
-  useEffect(
-    () => {
-      if (chapter) {
-        el.classList.add('is-loading')
-        Promise.resolve()
-          .then(() => {
-            if (resource.nextDom) {
-              return Promise.resolve(resource.nextDom)
-            } else {
-              return api.book.chapter(chapter, false, book)
-            }
-          })
-          .then(dom => {
-            el.classList.remove('is-loading')
-            window.scrollTo(0, 0)
-            setChapter(dom)
-            return dom
-          })
-          .then(dom => {
-            const { next } = dom
-            if (next) {
-              return api.book.chapter(next, false, book).then(nextDom => {
-                dom.nextDom = nextDom
-                setChapter(dom)
-              })
-            }
-          })
-          .catch(err => console.error(err))
-      }
-    },
-    [chapter, book]
-  )
-  useEffect(
-    () => {
-      const { lang, notes } = resource
-      if (lang) {
-        el.setAttribute('lang', lang)
-      }
-      if (resource) {
-        followLocations(el)
-      }
-      if (notes && resource) {
-        window.requestAnimationFrame(() => highlightNotes(el, notes))
-      }
-    },
-    [resource]
-  )
-  return html`<div class="readable-chapter-body">${resource.dom}</div>`
+  useEffect(() => {
+    if (chapter) {
+      el.classList.add('is-loading')
+      Promise.resolve()
+        .then(() => {
+          if (resource.nextDom) {
+            return Promise.resolve(resource.nextDom)
+          } else {
+            return api.book.chapter(chapter, false, book)
+          }
+        })
+        .then(dom => {
+          el.classList.remove('is-loading')
+          window.scrollTo(0, 0)
+          setChapter(dom)
+          return dom
+        })
+        .then(dom => {
+          const { next } = dom
+          if (next) {
+            return api.book.chapter(next, false, book).then(nextDom => {
+              dom.nextDom = nextDom
+              setChapter(dom)
+            })
+          }
+        })
+        .catch(err => console.error(err))
+    }
+  }, [chapter, book])
+  useEffect(() => {
+    const { lang, notes } = resource
+    if (lang) {
+      el.setAttribute('lang', lang)
+    }
+    if (resource) {
+      followLocations(el)
+    }
+    if (notes && resource) {
+      window.requestAnimationFrame(() => highlightNotes(el, notes))
+    }
+  }, [resource])
+  return html`
+    <div class="readable-chapter-body">${resource.dom}</div>
+  `
 }
 readableChapter.observedAttributes = ['chapter', 'location', 'readable']
 

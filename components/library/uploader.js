@@ -1,6 +1,6 @@
 import { html } from 'lit-html'
 import { useState, useEffect, component } from 'haunted'
-import { api } from '../api-provider.js'
+import { api } from '../api-provider.component.js'
 import { classMap } from 'lit-html/directives/class-map.js'
 import '../../js/vendor/file-drop-element.js'
 import '../widgets/button.js'
@@ -21,10 +21,11 @@ export const preview = () => {
     })
   }
   api.library = () => {}
-  return html`<api-provider .value=${api}>
-    <ink-uploader></ink-uploader>
-  </api-provider>
-`
+  return html`
+    <api-provider .value=${api}>
+      <ink-uploader></ink-uploader>
+    </api-provider>
+  `
 }
 export const render = () => {
   const [files, setQueue] = useState(api.uploads.files)
@@ -33,23 +34,48 @@ export const render = () => {
     api.events.on('importing', () => setQueue(api.uploads.files))
     api.events.on('queue-empty', () => setQueue(api.uploads.files))
   }, [])
-  return html`<style>
-  </style><div class=${classMap({
-    'header-row': true,
-    uploading: files.size !== 0
-  })}><p>Upload file</p>
-  <ink-button @click=${event => {
-    opener('ink-uploader', {}, null, event.target)
-  }} dropdown secondary compact name=${'Uploading ' +
-    files.size}></ink-button></div><file-drop accept=".epub,.pdf,application/epub+zip,application/pdf" multiple @filedrop=${event =>
-  fileDrop(event.files, api)}>
-  <p>Drop file here</p>
-  <p>or</p>
-  <p class="input">
-    <input type="file" name="file-selector" id="file-selector" accept=".epub,.pdf,application/epub+zip,application/pdf" multiple @change=${event =>
-    fileDrop(event.target.files, api)}>
-  </p>
-</file-drop>`
+  return html`
+    <style></style>
+    <div
+      class=${
+        classMap({
+          'header-row': true,
+          uploading: files.size !== 0
+        })
+      }
+    >
+      <p>Upload file</p>
+      <ink-button
+        @click=${
+          event => {
+            opener('ink-uploader', {}, null, event.target)
+          }
+        }
+        dropdown
+        secondary
+        compact
+        name=${'Uploading ' + files.size}
+      ></ink-button>
+    </div>
+    <file-drop
+      accept=".epub,.pdf,application/epub+zip,application/pdf"
+      multiple
+      @filedrop=${event => fileDrop(event.files, api)}
+    >
+      <p>Drop file here</p>
+      <p>or</p>
+      <p class="input">
+        <input
+          type="file"
+          name="file-selector"
+          id="file-selector"
+          accept=".epub,.pdf,application/epub+zip,application/pdf"
+          multiple
+          @change=${event => fileDrop(event.target.files, api)}
+        />
+      </p>
+    </file-drop>
+  `
 }
 
 const InkUploader = createElement(render, {})
@@ -67,20 +93,31 @@ export const UploaderBody = component(
         closer()
       }
     })
-    return html`<header class="ModalHeader">
-    ${iconButton({
-    click: () => closer(),
-    name: 'cancel',
-    label: 'Close Menu'
-  })}
-  <h2 class="ModalHeader-title">${files.size} Items</h2>
-  <div></div>
-</header>
-<div id="modal-1-content" class="content">
-  <ol slot="modal-body">${Array.from(files).map(
-    file => html`<li class="MenuItem">${file.name}</li>`
-  )}</ol>
-</div>`
+    return html`
+      <header class="ModalHeader">
+        ${
+          iconButton({
+            click: () => closer(),
+            name: 'cancel',
+            label: 'Close Menu'
+          })
+        }
+        <h2 class="ModalHeader-title">${files.size} Items</h2>
+        <div></div>
+      </header>
+      <div id="modal-1-content" class="content">
+        <ol slot="modal-body">
+          ${
+            Array.from(files).map(
+              file =>
+                html`
+                  <li class="MenuItem">${file.name}</li>
+                `
+            )
+          }
+        </ol>
+      </div>
+    `
   },
   window.HTMLElement,
   { useShadowDOM: false }
@@ -90,7 +127,10 @@ window.customElements.define('uploader-modal-body', UploaderBody)
 
 createModal(
   'ink-uploader',
-  () => html`<uploader-modal-body></uploader-modal-body>`,
+  () =>
+    html`
+      <uploader-modal-body></uploader-modal-body>
+    `,
   { popper: true }
 )
 

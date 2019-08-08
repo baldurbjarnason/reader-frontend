@@ -2,7 +2,7 @@ import * as textQuote from './selectors/dom-anchor-text-quote.js'
 import seek from './selectors/dom-seek.js'
 import { html } from 'lit-html'
 import { virtual } from 'haunted'
-import { api } from '../api-provider.js'
+import { api } from '../api-provider.component.js'
 import { opener } from '../utils/create-modal.js'
 import './ink-notes-modal.js'
 
@@ -36,36 +36,46 @@ function commentState (note = {}, root) {
 export const HighlightButton = virtual(
   ({ selectionRange, root }, document, bookId) => {
     let selector
-    return html`<button style="z-index: 5;" type="button" class="Button" ?hidden=${!(
-      selectionRange && root
-    )} @click=${() => {
-      if (selectionRange && root) {
-        selector = textQuote.fromRange(root, selectionRange)
-        const html = serializeRange(selectionRange)
-        const content = `<blockquote data-original-quote>${html}</blockquote>`
-        const docurl = new URL(document, window.location).href
-        return api.activity
-          .createAndGetID({
-            type: 'Note',
-            noteType: 'reader:Highlight',
-            inReplyTo: docurl,
-            'oa:hasSelector': selector,
-            content
-          })
-          .then(id => {
-            highlightNote(selector, root, id)
-            window
-              .getSelection()
-              .getRangeAt(0)
-              .collapse()
-            api
-              .get(id)
-              .then(note =>
-                opener('ink-notes', commentState(note, root), 'Comment')
-              )
-          })
-      }
-    }}>Highlight</button>`
+    return html`
+      <button
+        style="z-index: 5;"
+        type="button"
+        class="Button"
+        ?hidden=${!(selectionRange && root)}
+        @click=${
+          () => {
+            if (selectionRange && root) {
+              selector = textQuote.fromRange(root, selectionRange)
+              const html = serializeRange(selectionRange)
+              const content = `<blockquote data-original-quote>${html}</blockquote>`
+              const docurl = new URL(document, window.location).href
+              return api.activity
+                .createAndGetID({
+                  type: 'Note',
+                  noteType: 'reader:Highlight',
+                  inReplyTo: docurl,
+                  'oa:hasSelector': selector,
+                  content
+                })
+                .then(id => {
+                  highlightNote(selector, root, id)
+                  window
+                    .getSelection()
+                    .getRangeAt(0)
+                    .collapse()
+                  api
+                    .get(id)
+                    .then(note =>
+                      opener('ink-notes', commentState(note, root), 'Comment')
+                    )
+                })
+            }
+          }
+        }
+      >
+        Highlight
+      </button>
+    `
   }
 )
 
