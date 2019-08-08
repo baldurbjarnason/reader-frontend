@@ -33,7 +33,7 @@
   .AnnotationsToolbar-title {
     text-transform: uppercase;
     font-size: .65rem;
-    font-weight: 600;
+    font-weight: 400;
     color: #555;
     color: var(--medium);
   }

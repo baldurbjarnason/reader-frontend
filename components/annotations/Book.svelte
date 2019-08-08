@@ -21,19 +21,21 @@
     display: block;
     margin: 0;
     display: grid;
-    grid-template-columns: 300px 1fr;
-    padding: 1rem;
+    grid-template-columns: 1fr 300px;
+    padding: 3rem 1rem;
     grid-gap: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: white;
   }
   .AnnotationBook-cover {
-    grid-column: 1 / 2;
+    grid-column: 2 / 3;
     width: auto;
     width: 300px;
     height: 300px;
     object-fit: contain;
   }
   .AnnotationBook-group {
-    grid-column: 2 / 3;
+    grid-column: 1 / 2;
   }
   .AnnotationBook-title {
     font-size: 2rem;
@@ -53,11 +55,13 @@
 
 <!-- markup (zero or more items) goes here -->
 <div class="AnnotationBook">
-  <img class="AnnotationBook-cover" alt="{book.description ||
-      ''}" src="{cover}">
     <div class="AnnotationBook-group">
       <h1 class="AnnotationBook-title"><a href="${url}" class="AnnotationBook-link">{
-  book.name
-}</a></h1>
-<p class="AnnotationBook-subtitle">Annotatons &amp; Notes</p>
-    </div></div>
+        book.name
+      }</a></h1>
+      <p class="AnnotationBook-subtitle">Annotatons &amp; Notes</p>
+    </div>
+
+  <img class="AnnotationBook-cover" alt="{book.description ||
+      ''}" src="{cover}">
+</div>
