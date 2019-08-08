@@ -91,9 +91,7 @@ function createProfile (api, setProfile) {
           </p>
           <div class="center">
             <p>
-              <a href="https://google.com/"
-                >No thanks, I&rsquo;ll find something else to do</a
-              >
+              <a href="https://google.com/">No thanks</a>
             </p>
 
             <p>
