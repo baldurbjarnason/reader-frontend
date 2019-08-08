@@ -21,7 +21,7 @@ function setup (authserver) {
       name: 'sod',
       keys: [process.env.COOKIE_KEY || '4FAC5133-2641-4745-9D58-2187C37B8116'],
       secure: true,
-      maxAge: 24 * 60 * 60 * 1000
+      maxAge: 30 * 24 * 60 * 60 * 1000
     })
   )
   app.use(express.urlencoded({ extended: true }))
