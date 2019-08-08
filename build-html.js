@@ -5,10 +5,10 @@ const crypto = require('crypto')
 const production = process.env.NODE_ENV === 'production'
 
 const build = module.exports = function build () {
-  const components = glob.sync('*.component.*.js', {cwd: 'js/components/'})
+  const components = glob.sync('*.component.*.{js,svelte}', {cwd: 'js/components/'})
 
   const componentsContents = `
-  ${components.map(name => `import './${name}'`).join('\n')}
+  ${components.map(name => `import './components/${name}'`).join('\n')}
   `
 
   const hash = crypto
@@ -17,7 +17,7 @@ const build = module.exports = function build () {
     .digest('hex')
     .substr(0, 16)
 
-  const filename = production ? `js/components/index.${hash}.js` : `js/components/index.dev.js`
+  const filename = production ? `js/index.${hash}.js` : `js/index.dev.js`
   fs.writeFileSync(filename, componentsContents)
 
   const css = production ? glob.sync('static/styles/app.*.css')[0] : 'static/styles/app.dev.css'

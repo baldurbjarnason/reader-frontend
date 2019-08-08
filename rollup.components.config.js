@@ -7,8 +7,10 @@ import glob from 'glob'
 import json from 'rollup-plugin-json'
 import clear from 'rollup-plugin-clear'
 import svelte from 'rollup-plugin-svelte'
-const input = glob.sync('components/**/*.{component,hook}.js')
-
+import serve from 'rollup-plugin-serve'
+import livereload from 'rollup-plugin-livereload'
+const input = glob.sync('components/**/*.{component,hook}.{js,svelte}')
+console.log(input)
 const production = process.env.NODE_ENV === 'production'
 
 export default {
@@ -20,6 +22,8 @@ export default {
     entryFileNames: production ? '[name].[hash].js' : '[name].dev.js'
   }],
   plugins: [
+    !production && serve(),
+    !production && livereload('static/styles'),
     clear({targets: ['js/components']}),
     resolve({
       preferBuiltins: false,
@@ -29,6 +33,7 @@ export default {
     commonjs(),
     svelte({
       emitCss: true,
+      dev: !production,
       css: function (css) {
         console.log(css.code) // the concatenated CSS
         console.log(css.map) // a sourcemap

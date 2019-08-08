@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+<link media="all" rel="stylesheet" href="/static/styles/app.dev.css">
+<title>Component Preview</title>
+<style>
+preview-app {
+  display: block;
+  margin: 1rem;
+}
+preview-component {
+  display: block;
+  background-color: white;
+  padding: 1rem;
+}
+</style>
+<script src="/node_modules/inert-polyfill/inert-polyfill.js"></script>
+
+<script src="/node_modules/showdown/dist/showdown.js"></script>
+<script type="module">
+let params = new URLSearchParams(window.location.search.substring(1))
+const mod = params.get('component')
+const converter = new window.showdown.Converter()
+function md (text) {
+  console.log(converter)
+  const html = converter.makeHtml(text)
+  return DOMPurify.sanitize(html, purifyConfig)
+}
+
+const purifyConfig = {
+  KEEP_CONTENT: false,
+  RETURN_DOM: true,
+  RETURN_DOM_FRAGMENT: true,
+  RETURN_DOM_IMPORT: true
+}
+
+async function renderPreview (mod, setModule) {
+  console.log(mod)
+  if (mod) {
+    const comp = await import(mod)
+    setModule(comp.default)
+  }
+}
+function setModule (App) {
+  const app = new App({
+	target: document.body,
+	props: {
+		name: 'world'
+	}
+})
+}
+</script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/">
+</head>
+<body>
+
+<preview-app></preview-app>
+
+</body>
+</html>
