@@ -143,7 +143,7 @@
     "got": "^9.6.0",
     "haunted": "^4.5.1",
     "helmet": "^3.20.0",
-    "hobb-api": "github:RebusFoundation/reader-api",
+    "hobb-api": "github:baldurbjarnason/reader-api",
     "idb-keyval": "^3.2.0",
     "inert-polyfill": "^0.2.5",
     "intersection-observer": "^0.5.1",
