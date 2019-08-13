@@ -30,8 +30,6 @@
   .AnnotationBook-cover {
     grid-column: 2 / 3;
     width: auto;
-    width: 300px;
-    height: 300px;
     object-fit: contain;
   }
   .AnnotationBook-group {
@@ -40,6 +38,7 @@
   .AnnotationBook-title {
     font-size: 2rem;
     margin: 0;
+    line-height: 1.2;
   }
   .AnnotationBook-subtitle {
     font-size: 1.5rem;
@@ -47,9 +46,21 @@
     margin: 0;
     font-family: 'Source Serif Pro', serif;
     color: var(--medium);
+    line-height: 1.2;
   }
   .AnnotationBook-link {
     text-decoration: none;
+  }
+  @media (max-width: 620px) {
+    .AnnotationBook {
+      grid-template-columns: 1fr 100px;
+    }
+    .AnnotationBook-title {
+      font-size: 1.25rem;
+    }
+    .AnnotationBook-subtitle {
+      font-size: 1rem;
+    }
   }
 </style>
 

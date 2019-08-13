@@ -7,15 +7,28 @@ import '../widgets/text-button.js'
 import 'inert-polyfill/inert-polyfill.js'
 import SvelteApp from '../App.svelte'
 
+const div = document.createElement('div')
+const svelteApp = new SvelteApp({
+  target: div,
+  props: {}
+})
+
+const doc = {
+  // E.g. /doc/book-id/reader/path/to/chapter.xhtml
+  // Or /doc/book-id/annotations/
+  // Or /doc/book-id/info/
+  path: '/doc/:bookId/:component/:bookPath*',
+  render (req, route) {
+    svelteApp.$set({ req, route, component: 'annotations' })
+    return html`
+      ${div}
+    `
+  }
+}
 const annotations = {
   path: '/annotations/:bookId',
   render (req, route) {
-    const div = document.createElement('div')
-    const component = new SvelteApp({
-      target: div,
-      props: { req, route, component: 'annotations' }
-    })
-    console.log(div, component)
+    svelteApp.$set({ req, route, component: 'annotations' })
     return html`
       ${div}
     `

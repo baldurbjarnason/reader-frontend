@@ -4,7 +4,7 @@
   import { onMount, getContext } from 'svelte'
   import Book from './Book.svelte'
   import AnnotationsChapter from './AnnotationsChapter.svelte'
-  import AnnotationsToolbar from './AnnotationsToolbar.svelte'
+  import Toolbar from '../toolbars/Toolbar.svelte'
   import { fade } from 'svelte/transition'
   export let bookId
   let annotations = []
@@ -31,7 +31,7 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-<AnnotationsToolbar returnPath={'/info' + bookId} title="Annotations &amp; Notes" />
+<Toolbar returnPath={'/info' + bookId} title="Annotations &amp; Notes"><div class="AnnotationsToolbar-title">Annotations &amp; Notes</div></Toolbar>
 {#if book && annotations.length !== 0}
 <div class="AnnotationsPage" transition:fade>
   <Book book={book}/>

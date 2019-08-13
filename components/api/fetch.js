@@ -31,3 +31,15 @@ export async function get (url, context, global) {
     throw err
   }
 }
+
+export async function html (url, context, global) {
+  try {
+    const response = await fetchWrap(url, {
+      credentials: 'include'
+    })
+    return response.text()
+  } catch (err) {
+    err.url = url
+    throw err
+  }
+}

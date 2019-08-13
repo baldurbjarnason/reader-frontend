@@ -1,21 +1,13 @@
 import { storiesOf } from '@storybook/svelte'
 import { action } from '@storybook/addon-actions'
 
-import Button from './button.svelte'
+import Book from './Book.svelte'
 import AnnotationsPage from './AnnotationsPage.svelte'
 
-storiesOf('Button', module)
+storiesOf('Book', module)
   .add('with text', () => ({
-    Component: Button,
-    props: { text: 'Hello Button With Loads of Text' },
-    on: { click: action('clicked') }
-  }))
-  .add('with some emoji', () => ({
-    Component: Button,
-    props: {
-      text: '😀 😎 👍 💯'
-    },
-    on: { click: action('clicked') }
+    Component: Book,
+    props: { text: 'Book First pass' }
   }))
 storiesOf('Annotations Page', module)
   .add('with text', () => ({

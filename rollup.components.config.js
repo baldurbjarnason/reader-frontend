@@ -16,7 +16,7 @@ export default {
     dir: 'js/components',
     format: 'es',
     sourcemap: true,
-    entryFileNames: production ? '[name].[hash].js' : '[name].dev.js'
+    entryFileNames: '[name].dev.js'
   }],
   plugins: [
     clear({targets: ['js/components']}),

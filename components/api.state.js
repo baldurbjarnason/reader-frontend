@@ -18,7 +18,7 @@
 should be initially based on fetch.js
 
 */
-import { get } from './api/fetch.js'
+import { get, html } from './api/fetch.js'
 import { createProfileAPI } from './api/profile.js'
 import { createBookAPI } from './api/book.js'
 import { createActivityAPI } from './api/activity.js'
@@ -41,6 +41,7 @@ export function createAPI (global = window) {
     }
   }
   api.get = get
+  api.html = html
   api.profile = createProfileAPI(context, api, global)
   api.book = createBookAPI(context, api, global)
   api.activity = createActivityAPI(context, api, global)

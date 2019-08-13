@@ -8,7 +8,7 @@ const calc = require('postcss-calc')
 const fs = require('fs')
 const crypto = require('crypto')
 
-const production = process.env.NODE_ENV === 'production'
+const production = false
 
 // This needs to clear old css file
 fs.readFile('app/index.css', (err, css) => {

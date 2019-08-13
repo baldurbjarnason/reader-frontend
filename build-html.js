@@ -2,7 +2,7 @@ const glob = require('glob')
 const fs = require('fs')
 const crypto = require('crypto')
 
-const production = process.env.NODE_ENV === 'production'
+const production = false
 
 const build = module.exports = function build () {
   const components = glob.sync('*.component.*.{js,svelte}', {cwd: 'js/components/'})
