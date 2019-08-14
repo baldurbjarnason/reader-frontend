@@ -1,5 +1,6 @@
 import queue from 'async-es/queue'
 import assert from '../../js/vendor/nanoassert.js'
+import { endpoints } from '../endpoints.js'
 
 export async function uploadMedia (created, api, global) {
   const { book, media } = await created
@@ -49,7 +50,7 @@ function uploadData (created, api, global) {
       data.append('documentPath', item.documentPath)
       data.append('mediaType', item.mediaType)
       data.append('json', JSON.stringify(item.json))
-      return api.activity.upload(data, `${book.id}/file-upload`)
+      return api.activity.upload(data, endpoints.url(book.id, '/file-upload'))
     } catch (err) {
       console.error(err)
       err.httpMethod = 'Parser'

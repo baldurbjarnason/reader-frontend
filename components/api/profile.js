@@ -1,30 +1,31 @@
 import { getToken } from './csrf.js'
 import { fetchWrap, get } from './fetch.js'
+import { endpoints } from '../endpoints.js'
 
 export function createProfileAPI (context, api, global) {
   return {
     async outbox () {
       const profile = await getProfile(context, global)
-      return profile.outbox
+      return endpoints.url(profile.outbox)
     },
     async upload () {
       const profile = await getProfile(context, global)
-      return `${profile.id}/file-upload`
+      return endpoints.url(profile.id, '/file-upload')
     },
     async notes () {
       const profile = await getProfile(context, global)
-      return `${profile.id}/notes`
+      return endpoints.url(profile.id, '/notes')
     },
     async library () {
       const profile = await getProfile(context, global)
-      return profile.id + '/library'
+      return endpoints.url(profile.id, '/library')
     },
     async update () {
       context.profile = await get(context.profile.id, context)
       return context.profile
     },
     whoami () {
-      return get('/whoami', context)
+      return get(endpoints.whoami, context)
     },
     async create () {
       const newReader = {
@@ -33,7 +34,7 @@ export function createProfileAPI (context, api, global) {
       }
       try {
         const csrfToken = getToken()
-        const response = await fetchWrap('/readers', {
+        const response = await fetchWrap(endpoints.readers, {
           credentials: 'include',
           method: 'POST',
           body: JSON.stringify(newReader),
@@ -61,7 +62,7 @@ async function getProfile (context, global) {
   if (context.profile) {
     return context.profile
   }
-  const response = await global.fetch('/whoami', {
+  const response = await global.fetch(endpoints.whoami, {
     headers: new global.Headers({
       'content-type': 'application/ld+json'
     })
@@ -75,7 +76,7 @@ async function getProfile (context, global) {
     }
     try {
       const csrfToken = getToken()
-      const response = await fetchWrap('/readers', {
+      const response = await fetchWrap(endpoints.readers, {
         credentials: 'include',
         method: 'POST',
         body: JSON.stringify(newReader),
@@ -85,7 +86,7 @@ async function getProfile (context, global) {
         })
       })
       const reader = await get(
-        response.headers.get('location'),
+        enpoints.url(response.headers.get('location')),
         context,
         global
       )

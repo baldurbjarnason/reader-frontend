@@ -30,7 +30,7 @@ export default {
       emitCss: true,
       dev: !production,
       css: function (css) {
-        css.write('static/styles/svelte.css')
+        css.write('static/styles/svelte.dev.css')
       }
     }),
     string({

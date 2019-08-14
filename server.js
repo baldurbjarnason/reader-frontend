@@ -48,10 +48,16 @@ function setup (authserver) {
   app.use('/', require('./server/routes/asset.js'))
 
   const apiApp = require('hobb-api/server.js').app
+  const tokenApp = require('hobb-api/server.js').app
+  app.use('/', require('./server/token-auth.js'), tokenApp)
   app.use('/', require('./server/api-auth.js'))
-  app.use('/', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug dotenv passport-jwt
+  app.use('/api', apiApp) // This requires multer, @google-cloud/storage, sqlite objection knex pg objection-db-errors objection-guid debug dotenv passport-jwt
 
   apiApp.initialize(true).catch(err => {
+    debug(err)
+    throw err
+  })
+  tokenApp.initialize(true).catch(err => {
     debug(err)
     throw err
   })
