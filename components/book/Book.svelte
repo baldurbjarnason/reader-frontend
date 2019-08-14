@@ -18,6 +18,14 @@
   if (book && bookPath) {
     navigationPromise = getNavigation(bookPath, book)
   }
+  let currentLocation
+  function handleCurrent ({detail}) {
+    currentLocation = detail.highest.dataset.location
+  }
+  let loadedLocations = []
+  function handleAppearing ({detail}) {
+    loadedLocations = loadedLocations.concat(detail.nodes)
+  }
   // your script goes here
 </script>
 
@@ -53,7 +61,7 @@
     <div class="BookBody">
     {#each bookObject.readingOrder as chapter, index}
        <!-- content here -->
-       <Chapter chapter={chapter} book={bookObject} current={bookPath} index={index} />
+       <Chapter chapter={chapter} book={bookObject} current={bookPath} index={index} on:current={handleCurrent} on:appearing={handleAppearing} />
     {/each}
     </div>
   {#if navigationPromise}

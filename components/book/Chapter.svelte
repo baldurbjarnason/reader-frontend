@@ -1,13 +1,16 @@
 <script>
+  import {onMount, onDestroy, createEventDispatcher} from 'svelte'
 	import { fade, fly } from 'svelte/transition'
   import {getChapter} from './getChapter.js'
+  import ChapterBody from './ChapterBody.svelte'
+  const dispatch = createEventDispatcher()
   export let chapter
   export let book
   export let current
   export let index
-  const {url} = chapter
-  const bookURL = new URL(book.id, window.location)
-  const chapterHref = new URL(url, bookURL).href
+  let {url} = chapter
+  let bookURL = new URL(book.id, window.location)
+  let chapterHref = new URL(chapter.url, bookURL).href
   let htmlPromise
   let visible
   if ((current === url) || (index=== 0 && !current)) {
@@ -16,7 +19,55 @@
   } else {
     visible = false
   }
-  // your script goes here
+  let positionObserver
+  let locationObserver
+  let highest
+  let chapterElement
+  onMount(() => {
+    if (!positionObserver) {
+      positionObserver = new window.IntersectionObserver(onPosition, {
+        rootMargin: '-15% 0px -75% 0px',
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+      })
+    }
+    if (!locationObserver) {
+      locationObserver = new window.IntersectionObserver(onLocation, {
+        rootMargin: '15% 0px 75% 0px',
+        threshold: [0]
+      })
+    }
+    function onPosition (entries) {
+      if (entries[0].target !== highest) {
+        highest = entries[0].target
+        dispatch('current', {
+          highest
+        })
+      }
+    }
+    function onLocation (entries) {
+      const nodes = entries.map(entry => {
+        locationObserver.unobserve(entry.target)
+        const {target, boundingClientRect} = entry
+        const {top, left, width, height} = boundingClientRect
+        return {target, top, width, height, location: target.dataset.location}
+        })
+      dispatch('appearing', {
+        nodes
+      })
+    }
+  })
+  onDestroy(() => {
+    positionObserver.disconnect()
+    locationObserver.disconnect()
+  })
+  function handleIntroEnd () {
+    window.requestAnimationFrame(() => {
+      chapterElement.querySelectorAll('[data-location]').forEach(element => {
+        positionObserver.observe(element)
+        locationObserver.observe(element)
+      })
+    })
+  }
 </script>
 
 <style>
@@ -34,18 +85,9 @@
   padding: 0;
   display: grid;
   grid-template-columns:
-    minmax(var(--reader-left-margin), 0.25fr) minmax(
-      var(--reader-min-column-width),
-      var(--reader-max-column-width)
-    )
-    minmax(var(--reader-left-margin), 1fr);
+    minmax(var(--reader-left-margin), 0.25fr) minmax( var(--reader-min-column-width), var(--reader-max-column-width) ) minmax(calc(2 * var(--reader-left-margin)), 1fr);
   grid-template-areas: 'leftmargin maintext rightmargin';
-}
-.ChapterBody {
-  grid-area: maintext;
-  min-width: var(--reader-min-column-width);
-  max-width: var(--reader-max-column-width);
-  margin: 0;
+  grid-row-gap: var(--reader-paragraph-spacing);
 }
 .ChapterNotes {
   grid-area: rightmargin;
@@ -53,117 +95,117 @@
   background-color: #fefefe;
 }
 :global(.Chapter > *) {
-  grid-area: maintext;
+  grid-column: 2 / 3;
 }
 .Chapter.Loading {
   opacity: 0.5;
 }
-.ChapterBody :global(.Highlight) {
+
+.Chapter :global(.Highlight) {
   background-color: #ffff98;
 }
 
-.ChapterBody :global(.Highlight--selected) {
+.Chapter :global(.Highlight--selected) {
   background-color: #ddddd0;
 }
 
-.ChapterBody :global([hidden]),
-.ChapterBody :global(template) {
+.Chapter :global([hidden]),
+.Chapter :global(template) {
   display: none !important;
 }
-.ChapterBody :global(head) {
+.Chapter :global(head) {
   display: none;
 }
 
-.ChapterBody :global(blockquote) {
+.Chapter :global(blockquote) {
   margin-left: 2.5em;
 }
 
-.ChapterBody :global(blockquote),
-.ChapterBody :global(blockquote p) {
+.Chapter :global(blockquote),
+.Chapter :global(blockquote p) {
   font-size: 0.75rem;
   font-size: calc(var(--reader-font-size) * 0.85);
   line-height: 1.2;
 }
 
-.ChapterBody :global(blockquote * + *) {
+.Chapter :global(blockquote * + *) {
   margin-top: calc(var(--reader-paragraph-spacing) * 0.85);
 }
-.ChapterBody :global(blockquote *) {
+.Chapter :global(blockquote *) {
   margin-bottom: 0;
 }
-.ChapterBody :global(blockquote :first-child) {
+.Chapter :global(blockquote :first-child) {
   margin: 0;
 }
-.ChapterBody :global(h1) {
+.Chapter :global(h1) {
   font-size: 2em;
   font-size: calc(var(--reader-font-size) * 3);
   font-weight: 600;
   margin: 0;
 }
 
-.ChapterBody :global(h2) {
+.Chapter :global(h2) {
   font-weight: 600;
   font-size: calc(var(--reader-font-size) * 2);
   margin: 0;
 }
-.ChapterBody :global(h3) {
+.Chapter :global(h3) {
   font-weight: 400;
   font-style: italic;
   font-size: calc(var(--reader-font-size) * 1.5);
   margin: 0;
 }
-.ChapterBody :global(h4) {
+.Chapter :global(h4) {
   font-weight: normal;
   font-size: calc(var(--reader-font-size) * 1.25);
   margin: 0;
 }
-.ChapterBody :global(h5) {
+.Chapter :global(h5) {
   font-weight: normal;
   font-size: var(--reader-font-size);
   text-transform: uppercase;
   margin: 0;
 }
 
-.ChapterBody :global(h6) {
+.Chapter :global(h6) {
   font-weight: normal;
   font-size: var(--reader-font-size);
   margin: 0;
 }
 
-.ChapterBody :global(h1),
-.ChapterBody :global(h2),
-.ChapterBody :global(h3),
-.ChapterBody :global(h4),
-.ChapterBody :global(h5),
-.ChapterBody :global(h6) {
-  margin-bottom: var(--reader-paragraph-spacing);
+.Chapter :global(h1),
+.Chapter :global(h2),
+.Chapter :global(h3),
+.Chapter :global(h4),
+.Chapter :global(h5),
+.Chapter :global(h6) {
+  margin: 0;
 }
 
-.ChapterBody :global(p),
-.ChapterBody :global(div),
-.ChapterBody :global(td),
-.ChapterBody :global(figure),
-.ChapterBody :global(figcaption) {
+.Chapter :global(p),
+.Chapter :global(td),
+.Chapter :global(figure),
+.Chapter :global(figcaption) {
   line-height: var(--reader-line-height);
   font-size: 0.85rem;
   font-size: var(--reader-font-size, 0.85rem);
 }
 
-.ChapterBody :global(a[href]) {
+.Chapter :global(a[href]) {
   transition: box-shadow 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22),
     transform 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22);
   text-decoration: underline;
 }
-.ChapterBody :global(:link) {
+.Chapter :global(:link) {
   color: var(--link);
 }
-.ChapterBody :global(:visited) {
+.Chapter :global(:visited) {
   color: var(--visited);
 }
-.ChapterBody :global(a:link:hover) {
+.Chapter :global(a:link:hover) {
   color: var(--hover);
 }
-.ChapterBody :global(a) {
+.Chapter :global(a) {
   border-radius: 2rem;
 }
 @keyframes readableChapterPop {
@@ -182,32 +224,35 @@
     transform: scale(1);
   }
 }
-.ChapterBody :global(a:focus) {
+.Chapter :global(a:focus) {
   background-color: var(--rc-lighter);
   box-shadow: 0 0 0 5px var(--rc-lighter);
   outline: solid transparent;
   animation: readableChapterPop 0.25s ease-in-out;
 }
 
-.ChapterBody :global(a:link:active) {
+.Chapter :global(a:link:active) {
   color: var(--active);
 }
-.ChapterBody :global(b),
-.ChapterBody :global(strong),
-.ChapterBody :global(b > *),
-.ChapterBody :global(strong > *) {
+.Chapter :global(b),
+.Chapter :global(strong),
+.Chapter :global(b > *),
+.Chapter :global(strong > *) {
   font-weight: 600;
 }
-.ChapterBody :global(svg),
-.ChapterBody :global(img) {
+.Chapter :global(svg),
+.Chapter :global(img) {
   max-height: 88vh;
   width: auto;
   height: auto;
   max-width: 100%;
 }
-.ChapterBody :global(.is-current) {
+.Chapter :global(.is-current) {
   background-color: #f9f9f9;
   box-shadow: 0 0 0 0.25rem #f9f9f9;
+}
+:global(article, blockquote, details, dl, figcaption, figure, hr, ol, p, section, table, ul) {
+  margin: 0;
 }
 </style>
 
@@ -217,7 +262,8 @@
     <!-- promise is pending -->
   {:then html}
     <!-- The direction of the fly transition should depend on navigation order -->
-    <div class="Chapter" in:fly="{{ x: 0, y: 200, duration: 250 }}" out:fly="{{ x: 0, y: -200, duration: 250 }}"><div class="ChapterBody">{@html html }</div>
+    <div class="Chapter" in:fly="{{ x: 0, y: 200, duration: 250 }}" out:fly="{{ x: 0, y: -200, duration: 250 }}" bind:this={chapterElement} on:introend={handleIntroEnd}>
+    <ChapterBody html={html} />
     <div class="ChapterNotes"></div></div>
   {:catch error}
     <div class="Chapter Chapter-error" transition:fade>

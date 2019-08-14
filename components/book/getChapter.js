@@ -2,6 +2,8 @@ import createDOMPurify from 'dompurify'
 import { testProp } from '../api/allowed-css-props.js'
 const purifyConfig = {
   KEEP_CONTENT: false,
+  RETURN_DOM: true,
+  RETURN_DOM_IMPORT: true,
   ALLOW_TAGS: ['reader-highlight'],
   FORBID_TAGS: ['meta', 'form', 'title', 'link'],
   FORBID_ATTR: ['srcset', 'action', 'background', 'poster']
@@ -107,11 +109,17 @@ const tagLocations = [
   'h4',
   'h5',
   'h6',
-  'li',
   'table',
-  'dd',
-  'dt',
-  'figure'
+  'svg',
+  'hr',
+  'form',
+  'details',
+  'ul',
+  'ol',
+  'dl',
+  'figure',
+  'blockquote',
+  'aside'
 ]
 
 export async function getChapter (url, index) {
@@ -161,5 +169,70 @@ export async function getChapter (url, index) {
     chapter.documentElement.outerHTML,
     purifyConfig
   )
-  return clean
+  return walkDom(clean)
+}
+
+const tagNames = [
+  'p',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'table',
+  'svg',
+  'hr',
+  'form',
+  'details',
+  'ul',
+  'ol',
+  'dl',
+  'figure',
+  'blockquote',
+  'aside'
+]
+const selector =
+  'p, h1, h2, h3, h4, h5, h6, table, svg, hr, form, details, ul, ol, dl, figure, blockquote, aside'
+function walkDom (chapter) {
+  const flat = []
+  const nodeIterator = document.createNodeIterator(
+    chapter,
+    window.NodeFilter.SHOW_ELEMENT
+  )
+  let node = nodeIterator.nextNode()
+  while (node) {
+    if (
+      tagNames.includes(node.tagName.toLowerCase()) &&
+      node.closest(selector) === node
+    ) {
+      flat.push(nodeToObject(node))
+    } else if (
+      node.tagName.toLowerCase() === 'div' &&
+      node.querySelectorAll(selector).length === 0 &&
+      node.parentElement.tagName.toLowerCase() === 'body'
+    ) {
+      flat.push(nodeToObject(node))
+    }
+    node = nodeIterator.nextNode()
+  }
+  return flat
+}
+
+function nodeToObject (node) {
+  const attributes = {}
+  for (const attribute of node.attributes) {
+    attributes[attribute.name] = attribute.value
+  }
+  const links = []
+  node.querySelectorAll('a[href]').forEach(link => {
+    links.push(nodeToObject(link))
+  })
+  return {
+    html: node.innerHTML,
+    tagName: node.tagName.toLowerCase(),
+    location: node.dataset.location,
+    attributes,
+    links
+  }
 }
