@@ -3,7 +3,6 @@
   import Highlight from './Highlight.svelte'
   export let annotations
   export let index
-  console.log(annotations)
 </script>
 
 <style>

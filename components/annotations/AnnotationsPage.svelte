@@ -10,7 +10,8 @@
   let annotations = []
   let api = getContext('ink-api')
   let book
-  onMount(async () => {
+  $: loadBook(bookId)
+  async function loadBook (bookId) {
     book = await api.book.get(bookId)
     for (const chapter of book.readingOrder) {
       const {url} = chapter
@@ -19,7 +20,7 @@
       let notes = await api.book.notes(notesUrl)
       annotations = annotations.concat(notes)
     }
-  })
+  }
 </script>
 
 <style>

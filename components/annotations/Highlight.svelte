@@ -7,7 +7,6 @@
     FORBID_ATTR: ['style']
   }
   export let note
-  console.log('Where is my dom', note)
 </script>
 
 <style>
