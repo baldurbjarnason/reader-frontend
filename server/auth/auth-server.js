@@ -41,6 +41,7 @@ function authserver (options) {
             return user
           } else {
             // create JWT, save in token store
+            // Store for 4 weeks maybe?
             const expiresIn = '30m'
             const token = jwt.sign({ sub: id }, process.env.SECRETORKEY, {
               algorithm: 'HS256',

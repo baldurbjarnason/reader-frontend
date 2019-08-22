@@ -70,7 +70,7 @@
       <h1 class="AnnotationBook-title"><a href="${url}" class="AnnotationBook-link">{
         book.name
       }</a></h1>
-      <p class="AnnotationBook-subtitle">Annotatons &amp; Notes</p>
+      <p class="AnnotationBook-subtitle">Annotations &amp; Notes</p>
     </div>
 
   <img class="AnnotationBook-cover" alt="{book.description ||

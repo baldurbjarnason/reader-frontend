@@ -4,7 +4,6 @@
   export let chapters
   let scroll
   let height
-  console.log(current, chapters)
 </script>
 
 <style>

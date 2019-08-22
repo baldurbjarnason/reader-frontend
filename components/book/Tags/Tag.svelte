@@ -13,11 +13,14 @@
     text-transform: uppercase;
     color: #777;
     text-align: left;
-    padding: 0.25rem 0.5rem 0;
+    padding-left: 0.25rem;
   }
   .Location {
-    background-color: #fdfdfd;
+    display: block;
     box-shadow: 0 0 0 4px #fdfdfd;
+    background-color: #fdfdfd;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+    padding: 0.25rem 0.5rem;
   }
 </style>
 
