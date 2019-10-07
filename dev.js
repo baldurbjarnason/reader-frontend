@@ -1,25 +1,9 @@
 const https = require('https')
 const fs = require('fs')
-const { setup } = require('./server.js')
 const yaml = require('js-yaml')
-const morgan = require('morgan')
-const KeyvFile = require('keyv-file')
-const { authserver } = require('./server/auth/auth-server.js')
 
 // Auth
 const doc = yaml.safeLoad(fs.readFileSync('./app-development.yaml', 'utf8'))
-const Auth0Strategy = require('passport-auth0')
-const strategy = new Auth0Strategy(
-  {
-    domain: doc.env_variables.AUTH0_DOMAIN,
-    clientID: doc.env_variables.AUTH0_CLIENT_ID,
-    clientSecret: doc.env_variables.AUTH0_CLIENT_SECRET,
-    callbackURL: 'https://localhost:4430/callback'
-  },
-  (accessToken, refreshToken, extraParams, profile, done) => {
-    return done(null, profile)
-  }
-)
 
 process.env.SECRETORKEY = doc.env_variables.SECRETORKEY
 process.env.ISSUER = doc.env_variables.ISSUER
@@ -28,19 +12,42 @@ process.env.AUTH0_DOMAIN = doc.env_variables.AUTH0_DOMAIN
 process.env.AUTH0_CLIENT_ID = doc.env_variables.AUTH0_CLIENT_ID
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 
-const app = setup(
-  authserver({
-    strategy,
-    accountStore: new KeyvFile({
-      filename: `./keyv-file/default.msgpack`
-    }),
-    tokenStore: new KeyvFile({
-      filename: `./keyv-file/default-tokens.msgpack`
-    })
-  })
-)
 
-app.use(morgan('dev'))
+const express = require('express')
+const compression = require('compression')
+const debug = require('debug')('vonnegut:server')
+const cors = require('cors')
+if (!process.env.DOMAIN) {
+  process.env.DOMAIN = process.env.BASE
+}
+const app = express()
+app.enable('strict routing')
+app.disable('x-powered-by')
+app.set('trust proxy', true)
+app.options('*', cors({origin: true, credentials: true}))
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(compression())
+const tokenApp = require('hobb-api/server.js').app
+app.use('/', require('./server/token-auth.js'), tokenApp)
+app.use(function (req, res, next) {
+  const path = req.path || ''
+  if (req.protocol !== 'https') {
+    res.redirect(process.env.BASE + path)
+  } else {
+    next()
+  }
+})
+tokenApp.initialize(true).catch(err => {
+  debug(err)
+  throw err
+})
+app.use(function (req, res, next) {
+  res.status(404)
+  res.send('Not Found')
+})
+
+app.use(require('./server/error-handler.js').errorHandler)
 
 const options = {
   key: fs.readFileSync('./dev/localhost.key'),

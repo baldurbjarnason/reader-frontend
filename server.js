@@ -4,6 +4,7 @@ const compression = require('compression')
 const cookieSession = require('cookie-session')
 const { securitySetup } = require('./server/security.js')
 const debug = require('debug')('vonnegut:server')
+const cors = require('cors')
 if (!process.env.DOMAIN) {
   process.env.DOMAIN = process.env.BASE
 }
@@ -15,6 +16,7 @@ function setup (authserver) {
   app.enable('strict routing')
   app.disable('x-powered-by')
   app.set('trust proxy', true)
+  app.options('*', cors({origin: true, credentials: true}))
   // Cookie Session
   app.use(
     cookieSession({
